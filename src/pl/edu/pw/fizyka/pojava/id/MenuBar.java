@@ -8,11 +8,16 @@ public class MenuBar extends JMenuBar {
 
 	public MenuBar() {
 		
-		JMenu plik = new JMenu("plik");
-		JMenuItem zapisz = new JMenuItem("zapisz");
+		JMenu file = new JMenu("plik");
+		JMenuItem save = new JMenuItem("zapisz");
+		file.add(save);
 		
-		plik.add(zapisz);
-		this.add(plik);
+		JMenu edit = new JMenu("edycja");
+		JMenuItem addDest = new JMenuItem("dodaj nowy cel");
+		edit.add(addDest);
+		
+		this.add(file);
+		this.add(edit);
 	}
 
 }

@@ -19,7 +19,7 @@ public class MainClass {
 				f.add(new AnimationPanel(), BorderLayout.CENTER);
 				f.setJMenuBar(new MenuBar());
 					
-				f.setSize(800, 500);
+				f.setSize(1200, 700);
 				f.setVisible(true);
 					
 				}
