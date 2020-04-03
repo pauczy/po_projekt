@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -15,14 +17,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class SettingsPanel extends JPanel {
-
+	
+	public static double velocity;
+	JTextField vText;
 	public SettingsPanel() {
 		
 		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
 		ImageIcon rocketIcon = new ImageIcon("img/rakieta.jpg");
-		
+		//labels
 		JLabel vLabel = new JLabel("prędkość: ");
 		JLabel refLabel = new JLabel("układ osniesienia: ");
 		JLabel destLabel = new JLabel("cel: ");
@@ -30,6 +36,7 @@ public class SettingsPanel extends JPanel {
 		refLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		destLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
+		//setting velocity
 		JSlider vSlider = new JSlider(0,100);
 		vSlider.setMajorTickSpacing(25);
 		vSlider.setMinorTickSpacing(5);
@@ -42,15 +49,26 @@ public class SettingsPanel extends JPanel {
 	    labelTable.put(0, new JLabel("0.0"));
 	    vSlider.setLabelTable( labelTable );
 	    vSlider.setPaintLabels(true);
+	    ChangeListener SliderListener = new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+		        JSlider source = (JSlider)e.getSource();
+		        if (!source.getValueIsAdjusting()) {
+		             velocity = (double) source.getValue()/100;
+		             vText.setText(String.valueOf(String.valueOf(velocity)+ "c"));
+		             
+		        }
+			}
+		 };
+		 vSlider.addChangeListener(SliderListener);
 	    
-	    JTextField vText = new JTextField(labelTable.get(vSlider.getValue()).getText() + "c");
+	    vText = new JTextField(labelTable.get(vSlider.getValue()).getText() + "c");
 	    vText.setColumns(5);
 	    JPanel vPanel = new JPanel();
 	    vPanel.add(vSlider);
 	    vPanel.add(vText);
 	    vPanel.setBackground(Color.WHITE);
 	    
-		
+		//seting destination
 		JButton rocketB = new JButton(rocketIcon);
 		JButton earthB = new JButton(earthIcon);
 		
@@ -59,18 +77,14 @@ public class SettingsPanel extends JPanel {
 		buttonsPanel.add(rocketB);
 		buttonsPanel.setBackground(Color.WHITE);
 		
-		
-		
 		JComboBox destinations = new JComboBox();
 		
+		//starting animation
 		JButton goButton = new JButton("w drogę!");
 		goButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		goButton.setPreferredSize(new Dimension(150, 50));
-		
 	
 		this.setBackground(Color.WHITE);
-		
-		
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		this.add(Box.createVerticalStrut(30));
@@ -86,12 +100,6 @@ public class SettingsPanel extends JPanel {
 		this.add(Box.createVerticalGlue());
 		this.add(goButton);
 		this.add(Box.createVerticalStrut(30));
-		
-		
-		
-		
+			
 	}
-
-	
-
 }
