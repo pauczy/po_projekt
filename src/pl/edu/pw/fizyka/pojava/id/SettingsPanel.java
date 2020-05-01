@@ -20,12 +20,14 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SettingsPanel extends JPanel {
+public class SettingsPanel extends JPanel implements Runnable{
 	
 	public static double velocity;
 	JTextField vText;
+	boolean dziala;
 	public SettingsPanel() {
 		
+		dziala = true;
 		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
 		ImageIcon rocketIcon = new ImageIcon("img/rakieta.jpg");
 		//labels
@@ -101,5 +103,10 @@ public class SettingsPanel extends JPanel {
 		this.add(goButton);
 		this.add(Box.createVerticalStrut(30));
 			
+	}
+	public void run() {
+		while (dziala == true) {
+			
+		}		
 	}
 }
