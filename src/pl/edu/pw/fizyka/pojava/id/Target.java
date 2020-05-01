@@ -11,8 +11,12 @@ public class Target {
 		this.distance = distance;
 	}
 	
-	double distanceInMeters(){
+	public double getDistanceInMetres(){
 		return distance * lightYear;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 
 }
