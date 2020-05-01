@@ -1,9 +1,8 @@
 package pl.edu.pw.fizyka.pojava.id;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.io.File;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;

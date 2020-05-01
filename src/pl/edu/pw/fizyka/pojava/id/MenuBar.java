@@ -7,8 +7,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 public class MenuBar extends JMenuBar implements Runnable{
 	
