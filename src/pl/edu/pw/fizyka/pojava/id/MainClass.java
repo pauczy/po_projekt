@@ -20,7 +20,7 @@ public class MainClass {
 				f.add(settings, BorderLayout.LINE_END);
 				AnimationPanel animation = new AnimationPanel();
 				f.add(animation, BorderLayout.CENTER);
-				MenuBar menu = new MenuBar();
+				MenuBar menu = new MenuBar(settings);
 				f.setJMenuBar(menu);
 					
 				f.setSize(1200, 700);
