@@ -4,6 +4,11 @@ package pl.edu.pw.fizyka.pojava.id;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Hashtable;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -22,6 +27,8 @@ public class SettingsPanel extends JPanel implements Runnable{
 	public static double velocity;
 	JTextField vText;
 	boolean dziala;
+	JComboBox destinations;
+	
 	public SettingsPanel() {
 		
 		dziala = true;
@@ -76,7 +83,13 @@ public class SettingsPanel extends JPanel implements Runnable{
 		buttonsPanel.add(rocketB);
 		buttonsPanel.setBackground(Color.WHITE);
 		
-		JComboBox destinations = new JComboBox();
+		destinations = new JComboBox<String>();
+		try {
+			loadDestinations();
+		}catch(SQLException ex) {
+			System.err.println("błąd wczytywania destynacji");
+		}
+		
 		
 		//starting animation
 		JButton goButton = new JButton("w drogę!");
@@ -105,5 +118,22 @@ public class SettingsPanel extends JPanel implements Runnable{
 		while (dziala == true) {
 			
 		}		
+	}
+	
+	public void loadDestinations() throws SQLException{
+		Connection conn = null;
+		try {
+				conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+				Statement stmt = conn.createStatement();
+				stmt.execute("SELECT `name` FROM `destinations` ORDER BY `name`");
+				ResultSet rs = stmt.getResultSet();
+				while(rs.next()) {
+					destinations.addItem(rs.getObject(1));
+				}
+		}finally {
+			if (conn!= null){
+				conn.close();
+			}
+		}
 	}
 }

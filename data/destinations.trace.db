@@ -1,0 +1,149 @@
+2020-05-06 20:52:39 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ""DESTINATIONS"" (""ID"" INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,""NAME"" VARCHAR(50)""DISTANCE""[*] FLOAT PRIMARY KEY  (""ID"")) ; "; oczekiwano "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "CREATE TABLE ""DESTINATIONS"" (""ID"" INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,""NAME"" VARCHAR(50)""DISTANCE""[*] FLOAT PRIMARY KEY  (""ID"")) ; "; expected "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `destinations` (`Id` int(6) unsigned NOT NULL auto_increment,`name` varchar(50)`distance` float PRIMARY KEY  (`Id`)) ; [42001-197]
+2020-05-06 20:53:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ""DESTINATIONS"" (""ID"" INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,""NAME"" VARCHAR(50)""DISTANCE""[*] FLOAT PRIMARY KEY  (""ID"")) ; "; oczekiwano "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "CREATE TABLE ""DESTINATIONS"" (""ID"" INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,""NAME"" VARCHAR(50)""DISTANCE""[*] FLOAT PRIMARY KEY  (""ID"")) ; "; expected "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `destinations` (`Id` int(6) unsigned NOT NULL auto_increment,`name` varchar(50)`distance` float PRIMARY KEY  (`Id`)) ; [42001-197]
+2020-05-06 20:56:46 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Błąd składniowy w wyrażeniu SQL "CREATE TABLE ""DESTINATIONS"" (""ID"" INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,""NAME"" VARCHAR(50)""DISTANCE""[*]  PRIMARY KEY  (""ID"")) ; "; oczekiwano "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "CREATE TABLE ""DESTINATIONS"" (""ID"" INT(6) UNSIGNED NOT NULL AUTO_INCREMENT,""NAME"" VARCHAR(50)""DISTANCE""[*]  PRIMARY KEY  (""ID"")) ; "; expected "FOR, UNSIGNED, INVISIBLE, VISIBLE, NOT, NULL, AS, DEFAULT, GENERATED, ON, NOT, NULL, AUTO_INCREMENT, BIGSERIAL, SERIAL, IDENTITY, NULL_TO_DEFAULT, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, PRIMARY, UNIQUE, NOT, NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE `destinations` (`Id` int(6) unsigned NOT NULL auto_increment,`name` varchar(50)`distance`  PRIMARY KEY  (`Id`)) ; [42001-197]
+2020-05-06 20:58:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Funkcja "POW" nie istnieje
+Function "POW" not found; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', 4,063*POW(10, -8)); [90022-197]
+	at h2@1.4.197/org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:179)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:155)
+	at h2@1.4.197/org.h2.command.Parser.readJavaFunction(Parser.java:2699)
+	at h2@1.4.197/org.h2.command.Parser.readFunction(Parser.java:2756)
+	at h2@1.4.197/org.h2.command.Parser.readTerm(Parser.java:3102)
+	at h2@1.4.197/org.h2.command.Parser.readFactor(Parser.java:2590)
+	at h2@1.4.197/org.h2.command.Parser.readSum(Parser.java:2574)
+	at h2@1.4.197/org.h2.command.Parser.readConcat(Parser.java:2544)
+	at h2@1.4.197/org.h2.command.Parser.readCondition(Parser.java:2370)
+	at h2@1.4.197/org.h2.command.Parser.readAnd(Parser.java:2342)
+	at h2@1.4.197/org.h2.command.Parser.readExpression(Parser.java:2334)
+	at h2@1.4.197/org.h2.command.Parser.parseInsertGivenTable(Parser.java:1280)
+	at h2@1.4.197/org.h2.command.Parser.parseInsert(Parser.java:1222)
+	at h2@1.4.197/org.h2.command.Parser.parsePrepared(Parser.java:431)
+	at h2@1.4.197/org.h2.command.Parser.parse(Parser.java:335)
+	at h2@1.4.197/org.h2.command.Parser.parse(Parser.java:307)
+	at h2@1.4.197/org.h2.command.Parser.prepareCommand(Parser.java:278)
+	at h2@1.4.197/org.h2.engine.Session.prepareLocal(Session.java:611)
+	at h2@1.4.197/org.h2.engine.Session.prepareCommand(Session.java:549)
+	at h2@1.4.197/org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1247)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
+	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:24)
+2020-05-06 20:59:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Funkcja "POW" nie istnieje
+Function "POW" not found; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', 4,063*Math.pow(10, -8)); [90022-197]
+	at h2@1.4.197/org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:179)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:155)
+	at h2@1.4.197/org.h2.command.Parser.readJavaFunction(Parser.java:2699)
+	at h2@1.4.197/org.h2.command.Parser.readFunction(Parser.java:2756)
+	at h2@1.4.197/org.h2.command.Parser.readTermObjectDot(Parser.java:2972)
+	at h2@1.4.197/org.h2.command.Parser.readTerm(Parser.java:3095)
+	at h2@1.4.197/org.h2.command.Parser.readFactor(Parser.java:2590)
+	at h2@1.4.197/org.h2.command.Parser.readSum(Parser.java:2574)
+	at h2@1.4.197/org.h2.command.Parser.readConcat(Parser.java:2544)
+	at h2@1.4.197/org.h2.command.Parser.readCondition(Parser.java:2370)
+	at h2@1.4.197/org.h2.command.Parser.readAnd(Parser.java:2342)
+	at h2@1.4.197/org.h2.command.Parser.readExpression(Parser.java:2334)
+	at h2@1.4.197/org.h2.command.Parser.parseInsertGivenTable(Parser.java:1280)
+	at h2@1.4.197/org.h2.command.Parser.parseInsert(Parser.java:1222)
+	at h2@1.4.197/org.h2.command.Parser.parsePrepared(Parser.java:431)
+	at h2@1.4.197/org.h2.command.Parser.parse(Parser.java:335)
+	at h2@1.4.197/org.h2.command.Parser.parse(Parser.java:307)
+	at h2@1.4.197/org.h2.command.Parser.prepareCommand(Parser.java:278)
+	at h2@1.4.197/org.h2.engine.Session.prepareLocal(Session.java:611)
+	at h2@1.4.197/org.h2.engine.Session.prepareCommand(Session.java:549)
+	at h2@1.4.197/org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1247)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
+	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:24)
+2020-05-06 21:01:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Niezgodna ilość kolumn
+Column count does not match; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', 4,063*POWER(10, -8)); [21002-197]
+	at h2@1.4.197/org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:179)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:155)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:144)
+	at h2@1.4.197/org.h2.command.dml.Insert.prepare(Insert.java:306)
+	at h2@1.4.197/org.h2.command.Parser.prepareCommand(Parser.java:283)
+	at h2@1.4.197/org.h2.engine.Session.prepareLocal(Session.java:611)
+	at h2@1.4.197/org.h2.engine.Session.prepareCommand(Session.java:549)
+	at h2@1.4.197/org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1247)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
+	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:24)
+2020-05-06 21:02:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Błąd konwersji danych "(4, 6.3E-7) (DESTINATIONS: DISTANCE FLOAT)"
+Data conversion error converting "(4, 6.3E-7) (DESTINATIONS: DISTANCE FLOAT)"; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', (4,063*POWER(10, -8))) -- (STRINGDECODE('Ksi\u0119\u017cyc'), (4, 6.3E-7)) [22018-197]
+2020-05-06 21:05:04 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Niezgodna ilość kolumn
+Column count does not match; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', 0,00000004063); [21002-197]
+	at h2@1.4.197/org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:179)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:155)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:144)
+	at h2@1.4.197/org.h2.command.dml.Insert.prepare(Insert.java:306)
+	at h2@1.4.197/org.h2.command.Parser.prepareCommand(Parser.java:283)
+	at h2@1.4.197/org.h2.engine.Session.prepareLocal(Session.java:611)
+	at h2@1.4.197/org.h2.engine.Session.prepareCommand(Session.java:549)
+	at h2@1.4.197/org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1247)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
+	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:24)
+2020-05-06 21:07:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Niezgodna ilość kolumn
+Column count does not match; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', 0,00000004063); [21002-197]
+	at h2@1.4.197/org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:179)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:155)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:144)
+	at h2@1.4.197/org.h2.command.dml.Insert.prepare(Insert.java:306)
+	at h2@1.4.197/org.h2.command.Parser.prepareCommand(Parser.java:283)
+	at h2@1.4.197/org.h2.engine.Session.prepareLocal(Session.java:611)
+	at h2@1.4.197/org.h2.engine.Session.prepareCommand(Session.java:549)
+	at h2@1.4.197/org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1247)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
+	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:24)
+2020-05-06 21:09:43 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Funkcja "POW" nie istnieje
+Function "POW" not found; SQL statement:
+INSERT INTO `destinations` (`name`,`distance`) VALUES ('Mars', 1.886*POW(10, -5)); [90022-197]
+	at h2@1.4.197/org.h2.message.DbException.getJdbcSQLException(DbException.java:357)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:179)
+	at h2@1.4.197/org.h2.message.DbException.get(DbException.java:155)
+	at h2@1.4.197/org.h2.command.Parser.readJavaFunction(Parser.java:2699)
+	at h2@1.4.197/org.h2.command.Parser.readFunction(Parser.java:2756)
+	at h2@1.4.197/org.h2.command.Parser.readTerm(Parser.java:3102)
+	at h2@1.4.197/org.h2.command.Parser.readFactor(Parser.java:2590)
+	at h2@1.4.197/org.h2.command.Parser.readSum(Parser.java:2574)
+	at h2@1.4.197/org.h2.command.Parser.readConcat(Parser.java:2544)
+	at h2@1.4.197/org.h2.command.Parser.readCondition(Parser.java:2370)
+	at h2@1.4.197/org.h2.command.Parser.readAnd(Parser.java:2342)
+	at h2@1.4.197/org.h2.command.Parser.readExpression(Parser.java:2334)
+	at h2@1.4.197/org.h2.command.Parser.parseInsertGivenTable(Parser.java:1280)
+	at h2@1.4.197/org.h2.command.Parser.parseInsert(Parser.java:1222)
+	at h2@1.4.197/org.h2.command.Parser.parsePrepared(Parser.java:431)
+	at h2@1.4.197/org.h2.command.Parser.parse(Parser.java:335)
+	at h2@1.4.197/org.h2.command.Parser.parse(Parser.java:307)
+	at h2@1.4.197/org.h2.command.Parser.prepareCommand(Parser.java:278)
+	at h2@1.4.197/org.h2.engine.Session.prepareLocal(Session.java:611)
+	at h2@1.4.197/org.h2.engine.Session.prepareCommand(Session.java:549)
+	at h2@1.4.197/org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1247)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
+	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
+	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:26)
