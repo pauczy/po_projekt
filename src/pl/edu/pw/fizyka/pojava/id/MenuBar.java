@@ -7,14 +7,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
-public class MenuBar extends JMenuBar {
+public class MenuBar extends JMenuBar implements Runnable{
 	
 	JMenuItem authors, instruction;
+	boolean dziala;
 
 	public MenuBar() {
+		
+		dziala = true;
 		
 		JMenu file = new JMenu("Plik");
 		JMenuItem save = new JMenuItem("Zapisz");
@@ -46,6 +47,12 @@ public class MenuBar extends JMenuBar {
 		instruction.addActionListener(aboutListener);
 
 		this.add(about);
+	}
+	
+	public void run() {
+		while (dziala == true) {
+			
+		}		
 	}
 
 }

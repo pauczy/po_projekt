@@ -4,9 +4,6 @@ package pl.edu.pw.fizyka.pojava.id;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Hashtable;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,12 +17,14 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SettingsPanel extends JPanel {
+public class SettingsPanel extends JPanel implements Runnable{
 	
 	public static double velocity;
 	JTextField vText;
+	boolean dziala;
 	public SettingsPanel() {
 		
+		dziala = true;
 		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
 		ImageIcon rocketIcon = new ImageIcon("img/rakieta.jpg");
 		//labels
@@ -101,5 +100,10 @@ public class SettingsPanel extends JPanel {
 		this.add(goButton);
 		this.add(Box.createVerticalStrut(30));
 			
+	}
+	public void run() {
+		while (dziala == true) {
+			
+		}		
 	}
 }
