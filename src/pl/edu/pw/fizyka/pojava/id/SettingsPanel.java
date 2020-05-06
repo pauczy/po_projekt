@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +28,9 @@ public class SettingsPanel extends JPanel implements Runnable{
 	public static double velocity;
 	JTextField vText;
 	boolean dziala;
-	JComboBox destinations;
+	JComboBox<String> destinations;
+	Connection conn = null;
+	
 	
 	public SettingsPanel() {
 		
@@ -74,7 +77,7 @@ public class SettingsPanel extends JPanel implements Runnable{
 	    vPanel.add(vText);
 	    vPanel.setBackground(Color.WHITE);
 	    
-		//seting destination
+		//setting destination
 		JButton rocketB = new JButton(rocketIcon);
 		JButton earthB = new JButton(earthIcon);
 		
@@ -121,14 +124,14 @@ public class SettingsPanel extends JPanel implements Runnable{
 	}
 	
 	public void loadDestinations() throws SQLException{
-		Connection conn = null;
 		try {
 				conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
 				Statement stmt = conn.createStatement();
 				stmt.execute("SELECT `name` FROM `destinations` ORDER BY `name`");
 				ResultSet rs = stmt.getResultSet();
 				while(rs.next()) {
-					destinations.addItem(rs.getObject(1));
+					destinations.addItem(String.valueOf(rs.getObject(1)));
+					
 				}
 		}finally {
 			if (conn!= null){
@@ -136,4 +139,25 @@ public class SettingsPanel extends JPanel implements Runnable{
 			}
 		}
 	}
+	
+	public void addDestination(String name, float distance) throws SQLException{
+		try {
+			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			PreparedStatement prep = conn.prepareStatement("INSERT into destinations(name, distance) values (?, ?)");
+			prep.setString(1, name);
+			prep.setString(2, String.valueOf(distance));
+			prep.executeUpdate();
+			Statement stmt = conn.createStatement();
+			stmt.execute("SELECT `name` FROM `destinations` ORDER BY `id` DESC ");
+			ResultSet rs = stmt.getResultSet();
+			if(rs.next()) destinations.addItem(String.valueOf(rs.getObject(1)));
+					
+		}finally {
+			if (conn!= null){
+				conn.close();
+			}
+		}
+	}
+	
+	
 }

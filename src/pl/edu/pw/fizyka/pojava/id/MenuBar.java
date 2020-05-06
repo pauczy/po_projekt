@@ -2,50 +2,43 @@ package pl.edu.pw.fizyka.pojava.id;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class MenuBar extends JMenuBar implements Runnable{
+public class MenuBar extends JMenuBar implements Runnable, ActionListener{
 	
-	JMenuItem authors, instruction;
+	JMenuItem save, addDest, authors, instruction;
+	SettingsPanel panel;
 	boolean dziala;
 
-	public MenuBar() {
+	public MenuBar(SettingsPanel panel) {
 		
 		dziala = true;
+		this.panel = panel;
 		
 		JMenu file = new JMenu("Plik");
-		JMenuItem save = new JMenuItem("Zapisz");
+		save = new JMenuItem("Zapisz");
 		file.add(save);
 		
 		JMenu edit = new JMenu("Edycja");
-		JMenuItem addDest = new JMenuItem("Dodaj nowy cel");
+		addDest = new JMenuItem("Dodaj nowy cel");
+		addDest.addActionListener(this);
 		edit.add(addDest);
-		
-		this.add(file);
-		this.add(edit);
 		
 		JMenu about = new JMenu("O aplikacji");
 		authors = new JMenuItem("Autorzy");
-		instruction = new JMenuItem("Instrukcja");
-		about.add(instruction);
+		authors.addActionListener(this);
 		about.add(authors);
-		ActionListener aboutListener = new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource() == authors){
-					JOptionPane.showMessageDialog(null, "Autorzy:\nPaulina Czyż\nJulian Nowak");
-
-				}
-				
-			}
-		};
-		authors.addActionListener(aboutListener);
-		instruction.addActionListener(aboutListener);
-
+		instruction = new JMenuItem("Instrukcja");
+		instruction.addActionListener(this);
+		about.add(instruction);
+		
+		this.add(file);
+		this.add(edit);
 		this.add(about);
 	}
 	
@@ -53,6 +46,39 @@ public class MenuBar extends JMenuBar implements Runnable{
 		while (dziala == true) {
 			
 		}		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == authors) {
+			JOptionPane.showMessageDialog(null, "Autorzy:\nPaulina Czyż\nJulian Nowak");
+		}
+		if(e.getSource() == instruction) {
+			
+		}
+		if(e.getSource() == save) {
+			
+		}
+		if(e.getSource() == addDest) {
+			String name = JOptionPane.showInputDialog(
+			        null, 
+			        "podaj nazwę nowego celu: ", 
+			        "nowy cel", 
+			        JOptionPane.QUESTION_MESSAGE
+			    );
+			float distance = Float.parseFloat(JOptionPane.showInputDialog(
+			        null, 
+			        "podaj odległość od Ziemi do celu (w latach świetlnych): ", 
+			        "nowy cel", 
+			        JOptionPane.QUESTION_MESSAGE
+			    ));
+			try {
+				panel.addDestination(name, distance);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+				System.err.println("nie udało się dodać nowego celu");
+			}
+		}
 	}
 
 }

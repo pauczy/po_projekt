@@ -147,3 +147,9 @@ INSERT INTO `destinations` (`name`,`distance`) VALUES ('Mars', 1.886*POW(10, -5)
 	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:165)
 	at h2@1.4.197/org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:126)
 	at po_projekt/pl.edu.pw.fizyka.pojava.id.DestinationBase.main(DestinationBase.java:26)
+2020-05-06 23:07:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Dane nie są dostępne
+No data is available [2000-197]
+2020-05-06 23:10:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Dane nie są dostępne
+No data is available [2000-197]
