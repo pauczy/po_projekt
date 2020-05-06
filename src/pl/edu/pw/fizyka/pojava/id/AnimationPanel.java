@@ -2,6 +2,7 @@ package pl.edu.pw.fizyka.pojava.id;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,35 +17,65 @@ enum Location {
 	}
 
 public class AnimationPanel extends JPanel implements Runnable{
-	boolean dziala;
+	boolean dziala, reachedTarget;
 	public static Location loc;
+	int xPos, yPos;
 	BufferedImage rakieta[], currentImage;
-	ImageIcon bgImage, startBg;
+	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
 
 	public AnimationPanel()  {
 		dziala = true;
 		loc = Location.EARTH;
 		rakieta = loadImg("img/start/rakieta", 3);
-		startBg = new ImageIcon("img/start1.png");
-		
+		startBg = new ImageIcon("img/start.png");
+		spaceBg = new ImageIcon("img/niebo.png");
+		targetBg = new ImageIcon("img/target.jpg");
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
 		if (loc == Location.EARTH) {
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.drawImage(bgImage.getImage(), 0, 0, null);
-			g2d.drawImage(currentImage, 400, 100, null);
+			rakieta = loadImg("img/start/rakieta", 3);
+			bgImage = startBg;
+			Image bgImageS = bgImage.getImage();
+			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
+			bgImageScaled = new ImageIcon(bgImageS);
+			g2d.drawImage(bgImageScaled.getImage(), 0, 0, null);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (AnimationPanel.this.getSize().width*0.2), (int) (currentImage.getHeight()/currentImage.getWidth()*AnimationPanel.this.getSize().width*0.3), Image.SCALE_SMOOTH);
+			g2d.drawImage(currentImageScaled, (int) (AnimationPanel.this.getSize().width*0.45), (int) (AnimationPanel.this.getSize().height*0.45), null);
+		}
+		if (loc == Location.SPACE) {
+			rakieta = loadImg("img/lot/rakieta", 3);
+			bgImage = spaceBg;
+			Image bgImageS = bgImage.getImage();
+			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
+			bgImageScaled = new ImageIcon(bgImageS);
+			g2d.drawImage(bgImageScaled.getImage(), 0, 0, null);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (AnimationPanel.this.getSize().width*0.09), (int) (currentImage.getWidth()/currentImage.getHeight()*AnimationPanel.this.getSize().width*0.06), Image.SCALE_SMOOTH);
+			yPos = (int) (AnimationPanel.this.getSize().height*0.2);
+			g2d.drawImage(currentImageScaled, xPos, yPos, null);
+		}
+		if (loc == Location.TARGET) {
+			rakieta = loadImg("img/lot/rakieta", 3);
+			bgImage = targetBg;
+			Image bgImageS = bgImage.getImage();
+			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
+			bgImageScaled = new ImageIcon(bgImageS);
+			g2d.drawImage(bgImageScaled.getImage(), 0, 0, null);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (AnimationPanel.this.getSize().width*0.27), (int) (currentImage.getWidth()/currentImage.getHeight()*AnimationPanel.this.getSize().width*0.18), Image.SCALE_SMOOTH);
+			g2d.drawImage(currentImageScaled, (int) (AnimationPanel.this.getSize().width*0.3), (int) (AnimationPanel.this.getSize().height*0.25), null);
 		}
 	}
 	
 	public void run() {
 		int i = 0;
+		xPos= 0;
+		reachedTarget = false;
 		boolean revertAnimation = false;
 		while (dziala == true) {
 			if (loc == Location.EARTH) {//animacja na ziemi
-				currentImage = rakieta[i];
-				bgImage = startBg;
+				currentImage = rakieta[i];				
 				this.repaint();
 				try {
 					Thread.sleep(200);
@@ -59,6 +90,44 @@ public class AnimationPanel extends JPanel implements Runnable{
 					++i;
 				if (revertAnimation == true)
 					--i;
+			}
+			if (loc == Location.SPACE) {//animacja w ukladzie ziemi				
+				currentImage = rakieta[i];				
+				this.repaint();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (i == rakieta.length - 1)
+					revertAnimation = true;
+				if (i == 0)
+					revertAnimation = false;
+				if (revertAnimation == false)
+					++i;
+				if (revertAnimation == true)
+					--i;
+				if (xPos < AnimationPanel.this.getSize().width - 50)
+					xPos +=10;
+				else
+					loc = Location.TARGET;
+			}
+				if (loc == Location.TARGET) {//animacja w ukladzie ziemi				
+					currentImage = rakieta[i];				
+					this.repaint();
+					try {
+						Thread.sleep(150);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					if (i == rakieta.length - 1)
+						revertAnimation = true;
+					if (i == 0)
+						revertAnimation = false;
+					if (revertAnimation == false)
+						++i;
+					if (revertAnimation == true)
+						--i;
 			}
 			
 		}
