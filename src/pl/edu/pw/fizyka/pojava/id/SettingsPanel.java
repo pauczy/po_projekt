@@ -4,6 +4,8 @@ package pl.edu.pw.fizyka.pojava.id;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,30 +15,40 @@ import java.sql.Statement;
 import java.util.Hashtable;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SettingsPanel extends JPanel implements Runnable{
+public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 	
 	public static double velocity;
 	JTextField vText;
 	boolean dziala;
 	JComboBox<String> destinations;
+	JToggleButton earthB, rocketB;
+	JButton goButton;
+	JSlider vSlider;
 	Connection conn = null;
+	AnimationPanel animation;
 	
 	
-	public SettingsPanel() {
+	public SettingsPanel(AnimationPanel animation) {
 		
 		dziala = true;
+		this.animation = animation;
+		
 		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
 		ImageIcon rocketIcon = new ImageIcon("img/rakieta.jpg");
+		
 		//labels
 		JLabel vLabel = new JLabel("prędkość: ");
 		JLabel refLabel = new JLabel("układ osniesienia: ");
@@ -77,15 +89,21 @@ public class SettingsPanel extends JPanel implements Runnable{
 	    vPanel.add(vText);
 	    vPanel.setBackground(Color.WHITE);
 	    
-		//setting destination
-		JButton rocketB = new JButton(rocketIcon);
-		JButton earthB = new JButton(earthIcon);
+		//setting reference frame
+		rocketB = new JToggleButton(rocketIcon);
+		rocketB.addActionListener(this);
+		earthB = new JToggleButton(earthIcon, true);
+		earthB.addActionListener(this);
+		ButtonGroup buttons = new ButtonGroup();
+		buttons.add(rocketB);
+		buttons.add(earthB);
 		
 		JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
 		buttonsPanel.add(earthB);
 		buttonsPanel.add(rocketB);
 		buttonsPanel.setBackground(Color.WHITE);
 		
+		//adding destinations
 		destinations = new JComboBox<String>();
 		try {
 			loadDestinations();
@@ -95,13 +113,13 @@ public class SettingsPanel extends JPanel implements Runnable{
 		
 		
 		//starting animation
-		JButton goButton = new JButton("w drogę!");
+		goButton = new JButton("w drogę!");
 		goButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		goButton.setPreferredSize(new Dimension(150, 50));
+		goButton.addActionListener(this);
 	
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
 		this.add(Box.createVerticalStrut(30));
 		this.add(vLabel);
 		this.add(Box.createVerticalStrut(20));
@@ -127,7 +145,7 @@ public class SettingsPanel extends JPanel implements Runnable{
 		try {
 				conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
 				Statement stmt = conn.createStatement();
-				stmt.execute("SELECT `name` FROM `destinations` ORDER BY `name`");
+				stmt.execute("SELECT `name` FROM `destinations`");
 				ResultSet rs = stmt.getResultSet();
 				while(rs.next()) {
 					destinations.addItem(String.valueOf(rs.getObject(1)));
@@ -157,6 +175,51 @@ public class SettingsPanel extends JPanel implements Runnable{
 				conn.close();
 			}
 		}
+	}
+	
+	public Target getTarget(int i) throws SQLException{
+		String name = "";
+		float distance = 0;
+		try {
+			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			PreparedStatement prep = conn.prepareStatement("SELECT `name`, `distance` FROM `destinations` WHERE `id`= ?");
+			prep.setString(1, String.valueOf(i+1));
+			ResultSet rs = prep.executeQuery();
+			if(rs.next()) {
+				name = rs.getString("name");
+				distance = rs.getFloat("distance");
+			}
+			
+		}finally {
+			if (conn!= null){
+				conn.close();
+			}
+		}
+		Target target = new Target(name, distance);
+		return target;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == earthB) {
+			animation.ref = Reference.EARTH;
+		}
+		if(e.getSource() == rocketB) {
+			animation.ref = Reference.ROCKET;
+		}
+		if(e.getSource() == goButton){
+			int targetIndex = destinations.getSelectedIndex();
+			Target target = null;
+			try {
+				target = getTarget(targetIndex);
+				animation.showresults(target,  velocity);
+
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
 	}
 	
 	

@@ -2,18 +2,18 @@ package pl.edu.pw.fizyka.pojava.id;
 
 public class Calculator {
 	
-	public static double c = 299792458; // m/s
+	public static final double C = 299792458; // m/s
 		
-	private double gamma (double v) {
-		double denominator = Math.sqrt(1 - (v*v)/(c*c));
+	private static double gamma (double v) {
+		double denominator = Math.sqrt(1 - (v*v)/(C*C));
 		return  1/denominator;
 	}
 	
-	public double dilation (double t0, double v) { //time dilation
+	public static double dilation (double t0, double v) { //time dilation
 		return t0*gamma(v);
 	}
 	
-	public double contraction  (double l0, double v) { //length contraction
+	public static double contraction  (double l0, double v) { //length contraction
 		return l0/gamma(v);
 	}
 }

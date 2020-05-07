@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -16,9 +17,15 @@ enum Location {
 		EARTH, ROCKET, SPACE, TARGET;
 	}
 
+enum Reference {
+	EARTH, ROCKET
+}
+
 public class AnimationPanel extends JPanel implements Runnable{
+	
 	boolean dziala, reachedTarget;
 	public static Location loc;
+	public  Reference ref;
 	int xPos, yPos;
 	BufferedImage rakieta[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
@@ -26,6 +33,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	public AnimationPanel()  {
 		dziala = true;
 		loc = Location.EARTH;
+		ref = Reference.EARTH;
 		rakieta = loadImg("img/start/rakieta", 3);
 		startBg = new ImageIcon("img/start.png");
 		spaceBg = new ImageIcon("img/niebo.png");
@@ -146,5 +154,24 @@ public class AnimationPanel extends JPanel implements Runnable{
     	}
     	return animation;
     }
+	
+	public void showresults(Target target, double velocity) {
+		double v = velocity * Calculator.C;
+		double t0 = target.getDistanceInMetres() / v;
+		double t = Calculator.dilation(t0, v);
+		double l = Calculator.contraction(target.getDistanceInMetres(), v);
+		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
+		String wynik = "Dotarłaś/eś do " + target.getName() +"!\nPodróż zajęła ci: " + t*3.17e-8 +" s, na Ziemi minęło: " 
+				+ t0 + "s.\nPokonałaś/eś: " + l*0.001 + "km.\nRzeczywista odległość od Ziemi wynosiła: " 
+				+ target.getDistanceInMetres()*0.001 + "km.";
+		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
+	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
+	    if(result == JOptionPane.YES_OPTION){
+	               
+	    }else if (result == JOptionPane.NO_OPTION){
+	    	
+	    }
+		
+	}
 }
 

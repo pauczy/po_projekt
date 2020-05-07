@@ -14,12 +14,14 @@ public class MainClass {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			public void run() {
+				
 				JFrame f = new JFrame("Symulator podróży międzygwiezdnych");
 				f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				SettingsPanel settings = new SettingsPanel();
-				f.add(settings, BorderLayout.LINE_END);
+				
 				AnimationPanel animation = new AnimationPanel();
 				f.add(animation, BorderLayout.CENTER);
+				SettingsPanel settings = new SettingsPanel(animation);
+				f.add(settings, BorderLayout.LINE_END);	
 				MenuBar menu = new MenuBar(settings);
 				f.setJMenuBar(menu);
 					
