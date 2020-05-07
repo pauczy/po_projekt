@@ -5,10 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -167,7 +171,17 @@ public class AnimationPanel extends JPanel implements Runnable{
 		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
 	    if(result == JOptionPane.YES_OPTION){
-	               
+	            JFileChooser fc = new JFileChooser();  
+	 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+	 				try {
+	 		            File outputFile = fc.getSelectedFile();
+	 		            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile),
+	 			                Charset.forName("UTF-8").newEncoder());
+	 					osw.write(wynik);
+	 					osw.close();
+	 				}catch (IOException e) {
+	 				System.out.println(e.getMessage());}
+	 			}
 	    }else if (result == JOptionPane.NO_OPTION){
 	    	
 	    }
