@@ -160,15 +160,15 @@ public class AnimationPanel extends JPanel implements Runnable{
     	return animation;
     }
 	
-	public void showresults(Target target, double velocity) {
+	public void showResults(Target target, double velocity) {
 		double v = velocity * Calculator.C;
 		double t0 = target.getDistanceInMetres() / v;
 		double t = Calculator.dilation(t0, v);
 		double l = Calculator.contraction(target.getDistanceInMetres(), v);
 		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
 		String wynik;
-		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3f.\nNa Ziemi minęło: %.3f.\nPokonałaś/eś: %.3f km."
-				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3f km.", 
+		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3e.\nNa Ziemi minęło: %.3e.\nPokonałaś/eś: %.3e km."
+				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3e km.", 
 				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
 		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
