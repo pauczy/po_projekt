@@ -40,7 +40,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 	Connection conn = null;
 	AnimationPanel animation;
 	
-	
 	public SettingsPanel(AnimationPanel animation) {
 		
 		dziala = true;
@@ -58,7 +57,8 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 		destLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
 		//setting velocity
-		JSlider vSlider = new JSlider(0,100);
+		velocity = 0.5;
+		JSlider vSlider = new JSlider(0,100, 50);
 		vSlider.setMajorTickSpacing(25);
 		vSlider.setMinorTickSpacing(5);
 		vSlider.setPaintTicks(true);
@@ -76,7 +76,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 		        if (!source.getValueIsAdjusting()) {
 		             velocity = (double) source.getValue()/100;
 		             vText.setText(String.valueOf(String.valueOf(velocity)+ "c"));
-		             
 		        }
 			}
 		 };
@@ -111,7 +110,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 			System.err.println("błąd wczytywania destynacji");
 		}
 		
-		
 		//starting animation
 		goButton = new JButton("w drogę!");
 		goButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
@@ -135,6 +133,7 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 		this.add(Box.createVerticalStrut(30));
 			
 	}
+	
 	public void run() {
 		while (dziala == true) {
 			
@@ -148,8 +147,7 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 				stmt.execute("SELECT `name` FROM `destinations`");
 				ResultSet rs = stmt.getResultSet();
 				while(rs.next()) {
-					destinations.addItem(String.valueOf(rs.getObject(1)));
-					
+					destinations.addItem(String.valueOf(rs.getObject(1)));	
 				}
 		}finally {
 			if (conn!= null){
@@ -168,8 +166,7 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 			Statement stmt = conn.createStatement();
 			stmt.execute("SELECT `name` FROM `destinations` ORDER BY `id` DESC ");
 			ResultSet rs = stmt.getResultSet();
-			if(rs.next()) destinations.addItem(String.valueOf(rs.getObject(1)));
-					
+			if(rs.next()) destinations.addItem(String.valueOf(rs.getObject("name")));		
 		}finally {
 			if (conn!= null){
 				conn.close();
@@ -189,7 +186,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 				name = rs.getString("name");
 				distance = rs.getFloat("distance");
 			}
-			
 		}finally {
 			if (conn!= null){
 				conn.close();
@@ -198,7 +194,7 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 		Target target = new Target(name, distance);
 		return target;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == earthB) {
@@ -213,11 +209,9 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 			try {
 				target = getTarget(targetIndex);
 				animation.showresults(target,  velocity);
-
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			
 		}
 		
 	}

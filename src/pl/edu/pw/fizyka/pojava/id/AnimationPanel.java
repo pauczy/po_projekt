@@ -29,7 +29,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	
 	boolean dziala, reachedTarget;
 	public static Location loc;
-	public  Reference ref;
+	public  static Reference ref;
 	int xPos, yPos;
 	BufferedImage rakieta[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
