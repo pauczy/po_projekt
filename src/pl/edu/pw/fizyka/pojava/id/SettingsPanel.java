@@ -74,7 +74,7 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 			public void stateChanged(ChangeEvent e) {
 		        JSlider source = (JSlider)e.getSource();
 		        if (!source.getValueIsAdjusting()) {
-		             velocity = (double) source.getValue()/100;
+		             velocity = (double) source.getValue()/100;  
 		             vText.setText(String.valueOf(String.valueOf(velocity)+ "c"));
 		        }
 			}
@@ -206,11 +206,15 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 		if(e.getSource() == goButton){
 			int targetIndex = destinations.getSelectedIndex();
 			Target target = null;
-			try {
-				target = getTarget(targetIndex);
-				animation.showresults(target,  velocity);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
+			if (velocity == 1){
+				JOptionPane.showMessageDialog(null, "wybierz mniejszą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
+			}else {
+				try {
+					target = getTarget(targetIndex);
+					animation.showresults(target,  velocity);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 		
