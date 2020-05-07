@@ -208,6 +208,8 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 			Target target = null;
 			if (velocity == 1){
 				JOptionPane.showMessageDialog(null, "wybierz mniejszą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
+			}else if (velocity == 0){
+				JOptionPane.showMessageDialog(null, "wybierz większą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
 			}else {
 				try {
 					animation.loc = Location.SPACE;

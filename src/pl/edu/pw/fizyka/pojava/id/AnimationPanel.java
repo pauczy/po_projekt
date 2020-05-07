@@ -110,7 +110,8 @@ public class AnimationPanel extends JPanel implements Runnable{
 				currentImage = rakieta[i];				
 				this.repaint();
 				try {
-					Thread.sleep(100);
+					int sleep =  (int) (15 / SettingsPanel.velocity);
+					Thread.sleep(sleep);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -190,9 +191,8 @@ public class AnimationPanel extends JPanel implements Runnable{
 	 				System.out.println(e.getMessage());}
 	 			}
 	 			
-	    }else if (result == JOptionPane.NO_OPTION){
-	    	loc = Location.EARTH;
 	    }
+	    	loc = Location.EARTH;
 		
 	}
 }
