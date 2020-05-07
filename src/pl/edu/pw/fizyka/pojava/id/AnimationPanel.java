@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.time.Duration;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -165,9 +166,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 		double t = Calculator.dilation(t0, v);
 		double l = Calculator.contraction(target.getDistanceInMetres(), v);
 		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
-		String wynik = "Dotarłaś/eś do " + target.getName() +"!\nPodróż zajęła ci: " + t+" s, na Ziemi minęło: " 
-				+ t0 + "s.\nPokonałaś/eś: " + l*0.001 + "km.\nRzeczywista odległość od Ziemi wynosiła: " 
-				+ target.getDistanceInMetres()*0.001 + "km.";
+		String wynik;
+		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3f.\nNa Ziemi minęło: %.3f.\nPokonałaś/eś: %.3f km."
+				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3f km.", 
+				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
 		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
 	    if(result == JOptionPane.YES_OPTION){
