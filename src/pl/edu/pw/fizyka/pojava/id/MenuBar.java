@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 public class MenuBar extends JMenuBar implements Runnable, ActionListener{
 	
-	JMenuItem save, addDest, authors, instruction;
+	JMenuItem addDest, authors, instruction;
 	SettingsPanel panel;
 	boolean dziala;
 
@@ -19,10 +19,6 @@ public class MenuBar extends JMenuBar implements Runnable, ActionListener{
 		
 		dziala = true;
 		this.panel = panel;
-		
-		JMenu file = new JMenu("Plik");
-		save = new JMenuItem("Zapisz");
-		file.add(save);
 		
 		JMenu edit = new JMenu("Edycja");
 		addDest = new JMenuItem("Dodaj nowy cel");
@@ -37,7 +33,6 @@ public class MenuBar extends JMenuBar implements Runnable, ActionListener{
 		instruction.addActionListener(this);
 		about.add(instruction);
 		
-		this.add(file);
 		this.add(edit);
 		this.add(about);
 	}
@@ -54,9 +49,6 @@ public class MenuBar extends JMenuBar implements Runnable, ActionListener{
 			JOptionPane.showMessageDialog(null, "Autorzy:\nPaulina Czyż\nJulian Nowak");
 		}
 		if(e.getSource() == instruction) {
-			
-		}
-		if(e.getSource() == save) {
 			
 		}
 		if(e.getSource() == addDest) {

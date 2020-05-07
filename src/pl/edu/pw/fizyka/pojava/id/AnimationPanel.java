@@ -5,10 +5,16 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
+import java.time.Duration;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -16,16 +22,25 @@ enum Location {
 		EARTH, ROCKET, SPACE, TARGET;
 	}
 
+enum Reference {
+	EARTH, ROCKET
+}
+
 public class AnimationPanel extends JPanel implements Runnable{
+	
 	boolean dziala, reachedTarget;
 	public static Location loc;
+	public  static Reference ref;
 	int xPos, yPos;
 	BufferedImage rakieta[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
+	Target target;
+	double velocity;
 
 	public AnimationPanel()  {
 		dziala = true;
 		loc = Location.EARTH;
+		ref = Reference.EARTH;
 		rakieta = loadImg("img/start/rakieta", 3);
 		startBg = new ImageIcon("img/start.png");
 		spaceBg = new ImageIcon("img/niebo.png");
@@ -109,8 +124,11 @@ public class AnimationPanel extends JPanel implements Runnable{
 					--i;
 				if (xPos < AnimationPanel.this.getSize().width - 50)
 					xPos +=10;
-				else
+				else {
 					loc = Location.TARGET;
+					xPos = 0;
+					showResults(target, velocity);
+				}
 			}
 				if (loc == Location.TARGET) {//animacja w ukladzie ziemi				
 					currentImage = rakieta[i];				
@@ -146,5 +164,36 @@ public class AnimationPanel extends JPanel implements Runnable{
     	}
     	return animation;
     }
+	
+	public void showResults(Target target, double velocity) {
+		double v = velocity * Calculator.C;
+		double t0 = target.getDistanceInMetres() / v;
+		double t = Calculator.dilation(t0, v);
+		double l = Calculator.contraction(target.getDistanceInMetres(), v);
+		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
+		String wynik;
+		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3e s.\nNa Ziemi minęło: %.3e s.\nPokonałaś/eś: %.3e km."
+				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3e km.", 
+				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
+		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
+	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
+	    if(result == JOptionPane.YES_OPTION){
+	            JFileChooser fc = new JFileChooser();  
+	 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+	 				try {
+	 		            File outputFile = fc.getSelectedFile();
+	 		            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile),
+	 			                Charset.forName("UTF-8").newEncoder());
+	 					osw.write(wynik);
+	 					osw.close();
+	 				}catch (IOException e) {
+	 				System.out.println(e.getMessage());}
+	 			}
+	 			
+	    }else if (result == JOptionPane.NO_OPTION){
+	    	loc = Location.EARTH;
+	    }
+		
+	}
 }
 

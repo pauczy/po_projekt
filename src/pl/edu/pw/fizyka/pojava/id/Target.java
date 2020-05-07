@@ -4,7 +4,7 @@ public class Target {
 	
 	protected String name;
 	protected double distance; //in light-years
-	public static double lightYear = 9.4607*Math.pow(10, 15); //in metres
+	public static final double LY = 9.4607*Math.pow(10, 15); //in metres
 	
 	public Target (String name, double distance) {
 		this.name = name;
@@ -12,7 +12,7 @@ public class Target {
 	}
 	
 	public double getDistanceInMetres(){
-		return distance * lightYear;
+		return distance * LY;
 	}
 	
 	public String getName() {
