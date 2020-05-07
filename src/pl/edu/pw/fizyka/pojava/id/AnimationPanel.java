@@ -37,7 +37,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 
 	public AnimationPanel()  {
 		dziala = true;
-		loc = Location.SPACE;
+		loc = Location.EARTH;
 		ref = Reference.EARTH;
 		rakieta = loadImg("img/start/rakieta", 3);
 		startBg = new ImageIcon("img/start.png");
@@ -167,7 +167,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 		double l = Calculator.contraction(target.getDistanceInMetres(), v);
 		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
 		String wynik;
-		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3e.\nNa Ziemi minęło: %.3e.\nPokonałaś/eś: %.3e km."
+		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3e s.\nNa Ziemi minęło: %.3e s.\nPokonałaś/eś: %.3e km."
 				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3e km.", 
 				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
 		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
@@ -185,7 +185,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	 				System.out.println(e.getMessage());}
 	 			}
 	    }else if (result == JOptionPane.NO_OPTION){
-	    	//TODO powrót do początku animacji
+	    	loc = Location.EARTH;
 	    }
 		
 	}

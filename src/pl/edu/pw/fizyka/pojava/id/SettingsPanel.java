@@ -210,6 +210,7 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 				JOptionPane.showMessageDialog(null, "wybierz mniejszą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
 			}else {
 				try {
+					animation.loc = Location.SPACE;
 					target = getTarget(targetIndex);
 					animation.showResults(target,  velocity);
 				} catch (SQLException e1) {
