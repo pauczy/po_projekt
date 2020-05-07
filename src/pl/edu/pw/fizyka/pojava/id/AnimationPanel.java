@@ -190,9 +190,8 @@ public class AnimationPanel extends JPanel implements Runnable{
 	 				System.out.println(e.getMessage());}
 	 			}
 	 			
-	    }else if (result == JOptionPane.NO_OPTION){
-	    	loc = Location.EARTH;
 	    }
+	    	loc = Location.EARTH;
 		
 	}
 }
