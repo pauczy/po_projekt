@@ -122,8 +122,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 					--i;
 				if (xPos < AnimationPanel.this.getSize().width - 50)
 					xPos +=10;
-				else
+				else {
 					loc = Location.TARGET;
+					xPos = 0;
+				}
 			}
 				if (loc == Location.TARGET) {//animacja w ukladzie ziemi				
 					currentImage = rakieta[i];				
@@ -184,6 +186,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	 				}catch (IOException e) {
 	 				System.out.println(e.getMessage());}
 	 			}
+	 			
 	    }else if (result == JOptionPane.NO_OPTION){
 	    	loc = Location.EARTH;
 	    }
