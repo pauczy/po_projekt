@@ -34,6 +34,8 @@ public class AnimationPanel extends JPanel implements Runnable{
 	int xPos, yPos;
 	BufferedImage rakieta[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
+	Target target;
+	double velocity;
 
 	public AnimationPanel()  {
 		dziala = true;
@@ -125,6 +127,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 				else {
 					loc = Location.TARGET;
 					xPos = 0;
+					showResults(target, velocity);
 				}
 			}
 				if (loc == Location.TARGET) {//animacja w ukladzie ziemi				

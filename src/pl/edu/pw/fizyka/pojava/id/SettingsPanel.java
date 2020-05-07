@@ -212,7 +212,9 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 				try {
 					animation.loc = Location.SPACE;
 					target = getTarget(targetIndex);
-					animation.showResults(target,  velocity);
+					//animation.showResults(target,  velocity);
+					animation.target = target;
+					animation.velocity = velocity;
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
