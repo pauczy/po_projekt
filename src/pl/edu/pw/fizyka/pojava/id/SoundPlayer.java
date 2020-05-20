@@ -32,13 +32,15 @@ public void run() {
             DataLine.Info info = new DataLine.Info(Clip.class, format);
             audioClip = (Clip) AudioSystem.getLine(info);
             audioClip.open(audioStream);
-            
            	while(!playCompleted){  
            		audioClip.start();
+           		audioClip.loop(10);
      	    }
      	    audioClip.close();
+     	    playCompleted = false;
             try {
 				audioStream.close();
+				 audioClip.open(audioStream);
             } catch (IOException e) {
             	e.printStackTrace();
  			}
