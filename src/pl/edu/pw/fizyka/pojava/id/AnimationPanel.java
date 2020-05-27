@@ -32,7 +32,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	public static Location loc;
 	public  static Reference ref;
 	int xPos, yPos;
-	BufferedImage rakieta[], currentImage;
+	BufferedImage rakieta[], rakietaStart[], rakietaLot[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
 	Target target;
 	double velocity;
@@ -41,7 +41,9 @@ public class AnimationPanel extends JPanel implements Runnable{
 		dziala = true;
 		loc = Location.EARTH;
 		ref = Reference.EARTH;
-		rakieta = loadImg("img/start/rakieta", 3);
+		rakietaStart = loadImg("img/start/rakieta", 3);
+		rakietaLot = loadImg("img/lot/rakieta", 3);
+		rakieta = rakietaStart;
 		startBg = new ImageIcon("img/start.png");
 		spaceBg = new ImageIcon("img/niebo.png");
 		targetBg = new ImageIcon("img/target.jpg");
@@ -51,7 +53,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		if (loc == Location.EARTH) {
-			rakieta = loadImg("img/start/rakieta", 3);
+			rakieta = rakietaStart;
 			bgImage = startBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
@@ -61,7 +63,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 			g2d.drawImage(currentImageScaled, (int) (AnimationPanel.this.getSize().width*0.45), (int) (AnimationPanel.this.getSize().height*0.45), null);
 		}
 		if (loc == Location.SPACE) {
-			rakieta = loadImg("img/lot/rakieta", 3);
+			rakieta = rakietaLot;
 			bgImage = spaceBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
@@ -72,7 +74,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 			g2d.drawImage(currentImageScaled, xPos, yPos, null);
 		}
 		if (loc == Location.TARGET) {
-			rakieta = loadImg("img/lot/rakieta", 3);
+			rakieta = rakietaLot;
 			bgImage = targetBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
