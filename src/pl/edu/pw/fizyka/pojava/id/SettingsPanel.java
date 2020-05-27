@@ -212,7 +212,10 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 				JOptionPane.showMessageDialog(null, "wybierz większą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
 			}else {
 				try {
-					animation.loc = Location.SPACE;
+					if (animation.ref == Reference.EARTH)
+							animation.loc = Location.SPACE;
+					if (animation.ref == Reference.ROCKET)
+						animation.loc = Location.ROCKET;
 					target = getTarget(targetIndex);
 					//animation.showResults(target,  velocity);
 					animation.target = target;

@@ -9,8 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
-import java.time.Duration;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -31,7 +29,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	boolean dziala, reachedTarget;
 	public static Location loc;
 	public  static Reference ref;
-	int xPos, yPos;
+	int xPos, yPos, yBg;
 	BufferedImage rakieta[], rakietaStart[], rakietaLot[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
 	Target target;
@@ -47,41 +45,54 @@ public class AnimationPanel extends JPanel implements Runnable{
 		startBg = new ImageIcon("img/start.png");
 		spaceBg = new ImageIcon("img/niebo.png");
 		targetBg = new ImageIcon("img/target.jpg");
+		yBg = AnimationPanel.this.getSize().width;
 	}
 
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+		int panelWidth = (int)AnimationPanel.this.getSize().width;
+		int panelHeight = (int)AnimationPanel.this.getSize().height;
 		if (loc == Location.EARTH) {
 			rakieta = rakietaStart;
 			bgImage = startBg;
 			Image bgImageS = bgImage.getImage();
-			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
+			bgImageS = bgImageS.getScaledInstance(panelWidth, panelHeight,  Image.SCALE_SMOOTH); 
 			bgImageScaled = new ImageIcon(bgImageS);
 			g2d.drawImage(bgImageScaled.getImage(), 0, 0, null);
-			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (AnimationPanel.this.getSize().width*0.2), (int) (currentImage.getHeight()/currentImage.getWidth()*AnimationPanel.this.getSize().width*0.3), Image.SCALE_SMOOTH);
-			g2d.drawImage(currentImageScaled, (int) (AnimationPanel.this.getSize().width*0.45), (int) (AnimationPanel.this.getSize().height*0.45), null);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (panelWidth*0.2), (int) (currentImage.getHeight()/currentImage.getWidth()*panelWidth*0.3), Image.SCALE_SMOOTH);
+			g2d.drawImage(currentImageScaled, (int) (panelWidth*0.45), (int) (AnimationPanel.this.getSize().height*0.45), null);
 		}
 		if (loc == Location.SPACE) {
 			rakieta = rakietaLot;
 			bgImage = spaceBg;
 			Image bgImageS = bgImage.getImage();
-			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
+			bgImageS = bgImageS.getScaledInstance(panelWidth, panelHeight,  Image.SCALE_SMOOTH); 
 			bgImageScaled = new ImageIcon(bgImageS);
 			g2d.drawImage(bgImageScaled.getImage(), 0, 0, null);
-			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (AnimationPanel.this.getSize().width*0.09), (int) (currentImage.getWidth()/currentImage.getHeight()*AnimationPanel.this.getSize().width*0.06), Image.SCALE_SMOOTH);
-			yPos = (int) (AnimationPanel.this.getSize().height*0.2);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (panelWidth*0.09), (int) (currentImage.getWidth()/currentImage.getHeight()*panelWidth*0.06), Image.SCALE_SMOOTH);
+			yPos = (int) (panelHeight*0.2);
 			g2d.drawImage(currentImageScaled, xPos, yPos, null);
 		}
 		if (loc == Location.TARGET) {
 			rakieta = rakietaLot;
 			bgImage = targetBg;
 			Image bgImageS = bgImage.getImage();
-			bgImageS = bgImageS.getScaledInstance((int)AnimationPanel.this.getSize().width, (int)AnimationPanel.this.getSize().height,  Image.SCALE_SMOOTH); 
+			bgImageS = bgImageS.getScaledInstance(panelWidth, panelHeight,  Image.SCALE_SMOOTH); 
 			bgImageScaled = new ImageIcon(bgImageS);
 			g2d.drawImage(bgImageScaled.getImage(), 0, 0, null);
-			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (AnimationPanel.this.getSize().width*0.27), (int) (currentImage.getWidth()/currentImage.getHeight()*AnimationPanel.this.getSize().width*0.18), Image.SCALE_SMOOTH);
-			g2d.drawImage(currentImageScaled, (int) (AnimationPanel.this.getSize().width*0.3), (int) (AnimationPanel.this.getSize().height*0.25), null);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (panelWidth*0.27), (int) (currentImage.getWidth()/currentImage.getHeight()*panelWidth*0.18), Image.SCALE_SMOOTH);
+			g2d.drawImage(currentImageScaled, (int) (panelWidth*0.3), (int) (panelHeight*0.25), null);
+		}
+		if (loc == Location.ROCKET) {
+			rakieta = rakietaLot;
+			bgImage = spaceBg;
+			Image bgImageS = bgImage.getImage();
+			bgImageS = bgImageS.getScaledInstance(panelWidth*3, panelHeight,  Image.SCALE_SMOOTH); 
+			bgImageScaled = new ImageIcon(bgImageS);
+			g2d.drawImage(bgImageScaled.getImage(), yBg, 0, null);
+			Image currentImageScaled =  ((Image) currentImage).getScaledInstance((int) (panelWidth*0.27), (int) (currentImage.getWidth()/currentImage.getHeight()*panelWidth*0.18), Image.SCALE_SMOOTH);
+			g2d.drawImage(currentImageScaled, (int) (panelWidth*0.3), (int) (panelHeight*0.25), null);
 		}
 	}
 	
@@ -130,6 +141,32 @@ public class AnimationPanel extends JPanel implements Runnable{
 				else {
 					loc = Location.TARGET;
 					xPos = 0;
+					showResults(target, velocity);
+				}
+			}
+			if (loc == Location.ROCKET) {//animacja w ukladzie rakiety				
+				currentImage = rakieta[i];				
+				this.repaint();
+				try {
+					int sleep =  (int) (15 / SettingsPanel.velocity);
+					Thread.sleep(sleep);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				if (i == rakieta.length - 1)
+					revertAnimation = true;
+				if (i == 0)
+					revertAnimation = false;
+				if (revertAnimation == false)
+					++i;
+				if (revertAnimation == true)
+					--i;
+				if (yBg > -bgImage.getIconWidth())
+					yBg -=10;
+				else {
+					loc = Location.TARGET;
+					xPos = 0;
+					yBg = AnimationPanel.this.getSize().width;
 					showResults(target, velocity);
 				}
 			}
@@ -195,7 +232,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	 			
 	    }
 	    	loc = Location.EARTH;
-		
+	    	rakieta = rakietaStart;
 	}
 }
 
