@@ -9,17 +9,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class MenuBar extends JMenuBar implements Runnable, ActionListener{
+public class MenuBar extends JMenuBar implements ActionListener{
 	
 	JMenuItem addDest, authors, instruction;
 	SettingsPanel panel;
-	boolean dziala;
 
 	public MenuBar(SettingsPanel panel) {
 		
-		dziala = true;
 		this.panel = panel;
-		
 		JMenu edit = new JMenu("Edycja");
 		addDest = new JMenuItem("Dodaj nowy cel");
 		addDest.addActionListener(this);
@@ -37,13 +34,7 @@ public class MenuBar extends JMenuBar implements Runnable, ActionListener{
 		this.add(about);
 	}
 	
-	public void run() {
-		while (dziala == true) {
-			
-		}		
-	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == authors) {
 			JOptionPane.showMessageDialog(null, "Autorzy:\nPaulina Czyż\nJulian Nowak");

@@ -233,6 +233,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	    }
 	    	loc = Location.EARTH;
 	    	rakieta = rakietaStart;
+
 	}
 }
 

@@ -28,11 +28,10 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SettingsPanel extends JPanel implements Runnable, ActionListener{
+public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public static double velocity;
 	JTextField vText;
-	boolean dziala;
 	JComboBox<String> destinations;
 	JToggleButton earthB, rocketB;
 	JButton goButton;
@@ -42,7 +41,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 	
 	public SettingsPanel(AnimationPanel animation) {
 		
-		dziala = true;
 		this.animation = animation;
 		
 		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
@@ -132,12 +130,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 		this.add(goButton);
 		this.add(Box.createVerticalStrut(30));
 			
-	}
-	
-	public void run() {
-		while (dziala == true) {
-			
-		}		
 	}
 	
 	public void loadDestinations() throws SQLException{
