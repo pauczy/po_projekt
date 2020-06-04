@@ -43,8 +43,8 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		
 		this.animation = animation;
 		
-		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
-		ImageIcon rocketIcon = new ImageIcon("img/rakieta.jpg");
+		ImageIcon earthIcon = new ImageIcon(SettingsPanel.class.getResource("/ziemia.png"));
+		ImageIcon rocketIcon = new ImageIcon(SettingsPanel.class.getResource("/rakieta.jpg"));
 		
 		//labels
 		JLabel vLabel = new JLabel("prędkość: ");

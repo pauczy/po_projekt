@@ -39,12 +39,12 @@ public class AnimationPanel extends JPanel implements Runnable{
 		dziala = true;
 		loc = Location.EARTH;
 		ref = Reference.EARTH;
-		rakietaStart = loadImg("img/start/rakieta", 3);
-		rakietaLot = loadImg("img/lot/rakieta", 3);
+		rakietaStart = loadImg("/start/rakieta", 3);
+		rakietaLot = loadImg("/lot/rakieta", 3);
 		rakieta = rakietaStart;
-		startBg = new ImageIcon("img/start.png");
-		spaceBg = new ImageIcon("img/niebo.png");
-		targetBg = new ImageIcon("img/target.jpg");
+		startBg = new ImageIcon(AnimationPanel.class.getResource("/start.png"));
+		spaceBg = new ImageIcon(AnimationPanel.class.getResource("/niebo.png"));
+		targetBg = new ImageIcon(AnimationPanel.class.getResource("/target.jpg"));
 		yBg = AnimationPanel.this.getSize().width;
 	}
 
@@ -197,7 +197,7 @@ public class AnimationPanel extends JPanel implements Runnable{
     	for (int i = 0; i<nmbImages; ++i){
     		try {
     			String string = s+String.valueOf(i+1)+".png";
-				animation[i] = ImageIO.read(new File(string));
+				animation[i] = ImageIO.read(AnimationPanel.class.getResource(string));
 			} catch (IOException e) {
 				System.err.println("Error loading images");
 			}
