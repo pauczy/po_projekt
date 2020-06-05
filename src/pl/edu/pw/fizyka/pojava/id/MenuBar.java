@@ -49,18 +49,25 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			        panel.rb.getString("menu.dest.title"), 
 			        JOptionPane.QUESTION_MESSAGE
 			    );
-			float distance = Float.parseFloat(JOptionPane.showInputDialog(
+			if ((name != null) && (name.length() > 0)) {
+				String distanceStr = JOptionPane.showInputDialog(
 			        null, 
 			        panel.rb.getString("menu.dest.dist"), 
 			        panel.rb.getString("menu.dest.title"), 
 			        JOptionPane.QUESTION_MESSAGE
-			    ));
-			try {
-				panel.addDestination(name, distance);
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-				System.err.println(panel.rb.getString("menu.dest.err"));
-			}
+			    );
+				if ((distanceStr != null) && (distanceStr.length() > 0)) {
+					try {
+						float distance = Float.parseFloat(distanceStr);
+						panel.addDestination(name, distance);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+						System.err.println(panel.rb.getString("menu.dest.err"));
+					}catch (NumberFormatException e2) {
+						System.err.println("Incorrect number format");
+					}
+				}
+			}		
 		}
 	}
 
