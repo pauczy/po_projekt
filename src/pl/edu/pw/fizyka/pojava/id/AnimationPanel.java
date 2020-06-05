@@ -9,6 +9,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -34,6 +37,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
 	Target target;
 	double velocity;
+	ResourceBundle rb;
 
 	public AnimationPanel()  {
 		dziala = true;
@@ -46,6 +50,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 		spaceBg = new ImageIcon(AnimationPanel.class.getResource("/niebo.png"));
 		targetBg = new ImageIcon(AnimationPanel.class.getResource("/target.jpg"));
 		yBg = AnimationPanel.this.getSize().width;
+		
+		Locale currentLocale = new Locale("fr");
+		rb = ResourceBundle.getBundle("LabelsBundle",currentLocale);
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -210,10 +218,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 		double t0 = target.getDistanceInMetres() / v;
 		double t = Calculator.dilation(t0, v);
 		double l = Calculator.contraction(target.getDistanceInMetres(), v);
-		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
+		String options[] = {rb.getString("btn.quit"), rb.getString("btn.save")};
 		String wynik;
-		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3e s.\nNa Ziemi minęło: %.3e s.\nPokonałaś/eś: %.3e km."
-				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3e km.", 
+		wynik = String.format(rb.getString("msg.dest") + " %s!\n" + rb.getString("msg.time") + " %.3e s.\n" + rb.getString("msg.timeE") + " %.3e s.\n" + rb.getString("msg.dist") +"%.3e km."
+				+ rb.getString("msg.distR") + "%.3e km.", 
 				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
 		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );

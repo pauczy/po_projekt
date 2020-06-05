@@ -17,16 +17,16 @@ public class MenuBar extends JMenuBar implements ActionListener{
 	public MenuBar(SettingsPanel panel) {
 		
 		this.panel = panel;
-		JMenu edit = new JMenu("Edycja");
-		addDest = new JMenuItem("Dodaj nowy cel");
+		JMenu edit = new JMenu(panel.rb.getString("menu.edit"));
+		addDest = new JMenuItem(panel.rb.getString("menu.newDestination"));
 		addDest.addActionListener(this);
 		edit.add(addDest);
 		
-		JMenu about = new JMenu("O aplikacji");
-		authors = new JMenuItem("Autorzy");
+		JMenu about = new JMenu(panel.rb.getString("menu.about"));
+		authors = new JMenuItem(panel.rb.getString("menu.authors"));
 		authors.addActionListener(this);
 		about.add(authors);
-		instruction = new JMenuItem("Instrukcja");
+		instruction = new JMenuItem(panel.rb.getString("menu.instruction"));
 		instruction.addActionListener(this);
 		about.add(instruction);
 		
@@ -37,7 +37,7 @@ public class MenuBar extends JMenuBar implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == authors) {
-			JOptionPane.showMessageDialog(null, "Autorzy:\nPaulina Czyż\nJulian Nowak");
+			JOptionPane.showMessageDialog(null, panel.rb.getString("menu.authors.msg"));
 		}
 		if(e.getSource() == instruction) {
 			
@@ -45,21 +45,21 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		if(e.getSource() == addDest) {
 			String name = JOptionPane.showInputDialog(
 			        null, 
-			        "podaj nazwę nowego celu: ", 
-			        "nowy cel", 
+			        panel.rb.getString("menu.dest.name"), 
+			        panel.rb.getString("menu.dest.title"), 
 			        JOptionPane.QUESTION_MESSAGE
 			    );
 			float distance = Float.parseFloat(JOptionPane.showInputDialog(
 			        null, 
-			        "podaj odległość od Ziemi do celu (w latach świetlnych): ", 
-			        "nowy cel", 
+			        panel.rb.getString("menu.dest.dist"), 
+			        panel.rb.getString("menu.dest.title"), 
 			        JOptionPane.QUESTION_MESSAGE
 			    ));
 			try {
 				panel.addDestination(name, distance);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
-				System.err.println("nie udało się dodać nowego celu");
+				System.err.println(panel.rb.getString("menu.dest.err"));
 			}
 		}
 	}

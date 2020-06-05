@@ -13,6 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -38,6 +41,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	JSlider vSlider;
 	Connection conn = null;
 	AnimationPanel animation;
+	ResourceBundle rb;
 	
 	public SettingsPanel(AnimationPanel animation) {
 		
@@ -46,10 +50,13 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		ImageIcon earthIcon = new ImageIcon(SettingsPanel.class.getResource("/ziemia.png"));
 		ImageIcon rocketIcon = new ImageIcon(SettingsPanel.class.getResource("/rakieta.jpg"));
 		
+		
+		rb = animation.rb;
+		
 		//labels
-		JLabel vLabel = new JLabel("prędkość: ");
-		JLabel refLabel = new JLabel("układ osniesienia: ");
-		JLabel destLabel = new JLabel("cel: ");
+		JLabel vLabel = new JLabel(rb.getString("lbl.velocity"));
+		JLabel refLabel = new JLabel(rb.getString("lbl.reference"));
+		JLabel destLabel = new JLabel(rb.getString("lbl.destination"));
 		vLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		refLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		destLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -109,7 +116,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		}
 		
 		//starting animation
-		goButton = new JButton("w drogę!");
+		goButton = new JButton(rb.getString("btn.go"));
 		goButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		goButton.setPreferredSize(new Dimension(150, 50));
 		goButton.addActionListener(this);
@@ -199,9 +206,9 @@ public class SettingsPanel extends JPanel implements ActionListener{
 			int targetIndex = destinations.getSelectedIndex();
 			Target target = null;
 			if (velocity == 1){
-				JOptionPane.showMessageDialog(null, "wybierz mniejszą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, rb.getString("vmsg1"), "błąd", JOptionPane.ERROR_MESSAGE);
 			}else if (velocity == 0){
-				JOptionPane.showMessageDialog(null, "wybierz większą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, rb.getString("vmsg2"), "błąd", JOptionPane.ERROR_MESSAGE);
 			}else {
 				try {
 					if (animation.ref == Reference.EARTH)
