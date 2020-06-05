@@ -51,7 +51,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 		targetBg = new ImageIcon(AnimationPanel.class.getResource("/target.jpg"));
 		yBg = AnimationPanel.this.getSize().width;
 		
-		Locale currentLocale = new Locale("fr");
+		Locale currentLocale = new Locale(System.getProperty("user.language"));
 		rb = ResourceBundle.getBundle("LabelsBundle",currentLocale);
 		
 	}
@@ -220,10 +220,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 		double l = Calculator.contraction(target.getDistanceInMetres(), v);
 		String options[] = {rb.getString("btn.quit"), rb.getString("btn.save")};
 		String wynik;
-		wynik = String.format(rb.getString("msg.dest") + " %s!\n" + rb.getString("msg.time") + " %.3e s.\n" + rb.getString("msg.timeE") + " %.3e s.\n" + rb.getString("msg.dist") +"%.3e km."
-				+ rb.getString("msg.distR") + "%.3e km.", 
+		wynik = String.format(rb.getString("msg.dest") + " %s!\n" + rb.getString("msg.time") + " %.3e s.\n" + rb.getString("msg.timeE") + " %.3e s.\n" + rb.getString("msg.dist") +" %.3e km.\n"
+				+ rb.getString("msg.distR") + " %.3e km.", 
 				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
-		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
+		int result = JOptionPane.showOptionDialog(null, wynik, rb.getString("msg.result"), JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
 	    if(result == JOptionPane.YES_OPTION){
 	            JFileChooser fc = new JFileChooser();  
