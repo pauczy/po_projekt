@@ -27,11 +27,10 @@ public class MainClass {
 					
 				f.setSize(1200, 700);
 				f.setVisible(true);
-				
-				ExecutorService exec = Executors.newFixedThreadPool(3);
+				SoundPlayer player = new SoundPlayer();
+				ExecutorService exec = Executors.newFixedThreadPool(2);
 				exec.execute(animation);
-				exec.execute(settings);
-				exec.execute(menu);
+				exec.execute(player);
 				exec.shutdown();
 					
 				}

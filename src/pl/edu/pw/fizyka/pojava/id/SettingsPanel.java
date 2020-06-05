@@ -28,11 +28,10 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class SettingsPanel extends JPanel implements Runnable, ActionListener{
+public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public static double velocity;
 	JTextField vText;
-	boolean dziala;
 	JComboBox<String> destinations;
 	JToggleButton earthB, rocketB;
 	JButton goButton;
@@ -42,11 +41,10 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 	
 	public SettingsPanel(AnimationPanel animation) {
 		
-		dziala = true;
 		this.animation = animation;
 		
-		ImageIcon earthIcon = new ImageIcon("img/ziemia.png");
-		ImageIcon rocketIcon = new ImageIcon("img/rakieta.jpg");
+		ImageIcon earthIcon = new ImageIcon(SettingsPanel.class.getResource("/ziemia.png"));
+		ImageIcon rocketIcon = new ImageIcon(SettingsPanel.class.getResource("/rakieta.jpg"));
 		
 		//labels
 		JLabel vLabel = new JLabel("prędkość: ");
@@ -134,12 +132,6 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 			
 	}
 	
-	public void run() {
-		while (dziala == true) {
-			
-		}		
-	}
-	
 	public void loadDestinations() throws SQLException{
 		try {
 				conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
@@ -212,7 +204,10 @@ public class SettingsPanel extends JPanel implements Runnable, ActionListener{
 				JOptionPane.showMessageDialog(null, "wybierz większą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
 			}else {
 				try {
-					animation.loc = Location.SPACE;
+					if (animation.ref == Reference.EARTH)
+							animation.loc = Location.SPACE;
+					if (animation.ref == Reference.ROCKET)
+						animation.loc = Location.ROCKET;
 					target = getTarget(targetIndex);
 					//animation.showResults(target,  velocity);
 					animation.target = target;
