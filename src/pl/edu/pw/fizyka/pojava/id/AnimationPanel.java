@@ -218,11 +218,14 @@ public class AnimationPanel extends JPanel implements Runnable{
 		double t0 = target.getDistanceInMetres() / v;
 		double t = Calculator.dilation(t0, v);
 		double l = Calculator.contraction(target.getDistanceInMetres(), v);
-		String options[] = {rb.getString("btn.quit"), rb.getString("btn.save")};
+		String options[] = {rb.getString("btn.save"), rb.getString("btn.quit")};
 		String wynik;
-		wynik = String.format(rb.getString("msg.dest") + " %s!\n" + rb.getString("msg.time") + " %.3e s.\n" + rb.getString("msg.timeE") + " %.3e s.\n" + rb.getString("msg.dist") +" %.3e km.\n"
+		wynik = String.format(rb.getString("msg.dest") + target.getName() +"!\n" 
+				+ rb.getString("msg.time") +Calculator.timeToString(t) + "\n" 
+				+ rb.getString("msg.timeE") + Calculator.timeToString(t0) + "\n" 
+				+ rb.getString("msg.dist") +" %.3e km.\n"
 				+ rb.getString("msg.distR") + " %.3e km.", 
-				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
+				 l*0.001, target.getDistanceInMetres()*0.001 );
 		int result = JOptionPane.showOptionDialog(null, wynik, rb.getString("msg.result"), JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
 	    if(result == JOptionPane.YES_OPTION){
