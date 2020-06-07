@@ -1,7 +1,10 @@
 package pl.edu.pw.fizyka.pojava.id;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -10,24 +13,23 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+// by Julian
 public class SoundPlayer implements Runnable{
-	String audioFilePath;
 	Clip audioClip = null;
-	File audioFile = null;
 	AudioInputStream audioStream = null;
 	File file;
     boolean playCompleted = false;
+    InputStream inputStream = null;
     
     SoundPlayer(){
-    	
-		audioFilePath = SoundPlayer.class.getResource("/music.wav").getPath();
+    	inputStream = SoundPlayer.class.getResourceAsStream("/music.wav");
     }
 	
 public void run() {
     	
         try {
-            audioFile = new File(audioFilePath);
-            audioStream = AudioSystem.getAudioInputStream(audioFile);
+        	InputStream bufferedInput = new BufferedInputStream(inputStream);
+            audioStream = AudioSystem.getAudioInputStream(bufferedInput);
             AudioFormat format = audioStream.getFormat();
             DataLine.Info info = new DataLine.Info(Clip.class, format);
             audioClip = (Clip) AudioSystem.getLine(info);
