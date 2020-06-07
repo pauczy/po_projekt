@@ -13,6 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Hashtable;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -28,6 +33,8 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.h2.tools.Server;
+
 public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public static double velocity;
@@ -38,6 +45,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	JSlider vSlider;
 	Connection conn = null;
 	AnimationPanel animation;
+	ResourceBundle rb;
 	
 	public SettingsPanel(AnimationPanel animation) {
 		
@@ -46,10 +54,13 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		ImageIcon earthIcon = new ImageIcon(SettingsPanel.class.getResource("/ziemia.png"));
 		ImageIcon rocketIcon = new ImageIcon(SettingsPanel.class.getResource("/rakieta.jpg"));
 		
+		
+		rb = animation.rb;
+		
 		//labels
-		JLabel vLabel = new JLabel("prędkość: ");
-		JLabel refLabel = new JLabel("układ osniesienia: ");
-		JLabel destLabel = new JLabel("cel: ");
+		JLabel vLabel = new JLabel(rb.getString("lbl.velocity"));
+		JLabel refLabel = new JLabel(rb.getString("lbl.reference"));
+		JLabel destLabel = new JLabel(rb.getString("lbl.destination"));
 		vLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		refLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		destLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -109,7 +120,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		}
 		
 		//starting animation
-		goButton = new JButton("w drogę!");
+		goButton = new JButton(rb.getString("btn.go"));
 		goButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		goButton.setPreferredSize(new Dimension(150, 50));
 		goButton.addActionListener(this);
@@ -133,24 +144,37 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	}
 	
 	public void loadDestinations() throws SQLException{
-		try {
-				conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
-				Statement stmt = conn.createStatement();
-				stmt.execute("SELECT `name` FROM `destinations`");
-				ResultSet rs = stmt.getResultSet();
-				while(rs.next()) {
-					destinations.addItem(String.valueOf(rs.getObject(1)));	
+				try {
+					Server server = Server.createTcpServer().start();
+					conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
+						Statement stmt = conn.createStatement();
+						stmt.execute("SELECT `name` FROM `destinations`");
+						ResultSet rs = stmt.getResultSet();
+						while(rs.next()) {
+							destinations.addItem(String.valueOf(rs.getObject(1)));	
+						}
+						
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					if (conn!= null){
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
 				}
-		}finally {
-			if (conn!= null){
-				conn.close();
-			}
-		}
-	}
+				
+			}	
+
+		
+	
 	
 	public void addDestination(String name, float distance) throws SQLException{
 		try {
-			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			Server server = Server.createTcpServer().start();
+			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			PreparedStatement prep = conn.prepareStatement("INSERT into destinations(name, distance) values (?, ?)");
 			prep.setString(1, name);
 			prep.setString(2, String.valueOf(distance));
@@ -170,7 +194,8 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		String name = "";
 		float distance = 0;
 		try {
-			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			Server server = Server.createTcpServer().start();
+			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			PreparedStatement prep = conn.prepareStatement("SELECT `name`, `distance` FROM `destinations` WHERE `id`= ?");
 			prep.setString(1, String.valueOf(i+1));
 			ResultSet rs = prep.executeQuery();
@@ -199,9 +224,9 @@ public class SettingsPanel extends JPanel implements ActionListener{
 			int targetIndex = destinations.getSelectedIndex();
 			Target target = null;
 			if (velocity == 1){
-				JOptionPane.showMessageDialog(null, "wybierz mniejszą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, rb.getString("vmsg1"), "błąd", JOptionPane.ERROR_MESSAGE);
 			}else if (velocity == 0){
-				JOptionPane.showMessageDialog(null, "wybierz większą predkość:-)", "błąd", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, rb.getString("vmsg2"), "błąd", JOptionPane.ERROR_MESSAGE);
 			}else {
 				try {
 					if (animation.ref == Reference.EARTH)
@@ -209,7 +234,6 @@ public class SettingsPanel extends JPanel implements ActionListener{
 					if (animation.ref == Reference.ROCKET)
 						animation.loc = Location.ROCKET;
 					target = getTarget(targetIndex);
-					//animation.showResults(target,  velocity);
 					animation.target = target;
 					animation.velocity = velocity;
 				} catch (SQLException e1) {

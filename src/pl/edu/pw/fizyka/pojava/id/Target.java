@@ -4,7 +4,7 @@ public class Target {
 	
 	protected String name;
 	protected double distance; //in light-years
-	public static final double LY = 9.4607*Math.pow(10, 15); //in metres
+	public static final double LY = 9.4607*Math.pow(10, 15); //in meters
 	
 	public Target (String name, double distance) {
 		this.name = name;

@@ -9,6 +9,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -34,6 +39,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
 	Target target;
 	double velocity;
+	ResourceBundle rb;
 
 	public AnimationPanel()  {
 		dziala = true;
@@ -46,6 +52,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 		spaceBg = new ImageIcon(AnimationPanel.class.getResource("/niebo.png"));
 		targetBg = new ImageIcon(AnimationPanel.class.getResource("/target.jpg"));
 		yBg = AnimationPanel.this.getSize().width;
+		
+		Locale currentLocale = new Locale(System.getProperty("user.language"));
+		rb = ResourceBundle.getBundle("LabelsBundle",currentLocale);
+		
 	}
 
 	public void paintComponent(Graphics g) {
@@ -206,31 +216,39 @@ public class AnimationPanel extends JPanel implements Runnable{
     }
 	
 	public void showResults(Target target, double velocity) {
-		double v = velocity * Calculator.C;
-		double t0 = target.getDistanceInMetres() / v;
-		double t = Calculator.dilation(t0, v);
-		double l = Calculator.contraction(target.getDistanceInMetres(), v);
-		String options[] = {"zapisz dane i wykonaj nową symulację", "zamknij i wykonaj nową symulację"};
-		String wynik;
-		wynik = String.format("Dotarłaś/eś do: %s!\nPodróż zajęła ci: %.3e s.\nNa Ziemi minęło: %.3e s.\nPokonałaś/eś: %.3e km."
-				+ "\nRzeczywista odległość od Ziemi wynosiła: %.3e km.", 
-				target.getName(),t, t0, l*0.001, target.getDistanceInMetres()*0.001 );
-		int result = JOptionPane.showOptionDialog(null, wynik, "wynik", JOptionPane.YES_NO_OPTION,
-	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
-	    if(result == JOptionPane.YES_OPTION){
-	            JFileChooser fc = new JFileChooser();  
-	 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-	 				try {
-	 		            File outputFile = fc.getSelectedFile();
-	 		            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile),
-	 			                Charset.forName("UTF-8").newEncoder());
-	 					osw.write(wynik);
-	 					osw.close();
-	 				}catch (IOException e) {
-	 				System.out.println(e.getMessage());}
-	 			}
-	 			
-	    }
+		
+				double v = velocity * Calculator.C;
+				double t0 = target.getDistanceInMetres() / v;
+				double t = Calculator.dilation(t0, v);
+				double l = Calculator.contraction(target.getDistanceInMetres(), v);
+				String options[] = {rb.getString("btn.save"), rb.getString("btn.quit")};
+				String wynik;
+				wynik = String.format(rb.getString("msg.dest") + target.getName() +"!\n" 
+						+ rb.getString("msg.time") +Calculator.timeToString(t) + "\n" 
+						+ rb.getString("msg.timeE") + Calculator.timeToString(t0) + "\n" 
+						+ rb.getString("msg.dist") +" %.3e km  / %.3e au.\n"
+						+ rb.getString("msg.distR") + " %.3e km / %.3e au.\n", 
+						 l*0.001, Calculator.distanceAu(l),
+						 target.getDistanceInMetres()*0.001, Calculator.distanceAu(target.getDistanceInMetres()) );
+				int result = JOptionPane.showOptionDialog(null, wynik, rb.getString("msg.result"), JOptionPane.YES_NO_OPTION,
+			               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
+			    if(result == JOptionPane.YES_OPTION){
+			            JFileChooser fc = new JFileChooser();  
+			 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+			 				try {
+			 		            File outputFile = fc.getSelectedFile();
+			 		            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile),
+			 			                Charset.forName("UTF-8").newEncoder());
+			 					osw.write(wynik);
+			 					osw.close();
+			 				}catch (IOException e) {
+			 				System.out.println(e.getMessage());}
+			 			}
+			 			
+			    }
+				
+			
+		
 	    	loc = Location.EARTH;
 	    	rakieta = rakietaStart;
 
