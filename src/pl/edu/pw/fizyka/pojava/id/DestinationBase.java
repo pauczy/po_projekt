@@ -7,10 +7,9 @@ import java.sql.Statement;
 import org.h2.tools.Server;
 
 
+public class DestinationBase  implements Runnable {
 
-public class DestinationBase {
-
-	public static void main(String[] args) throws SQLException {
+	public void run() {
 		
 		Connection conn = null; 
 		try {
@@ -34,9 +33,15 @@ public class DestinationBase {
 			
 			
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}finally {
 			if (conn!= null){
-				conn.close();
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		System.out.println("Utworzono tabele danych" );

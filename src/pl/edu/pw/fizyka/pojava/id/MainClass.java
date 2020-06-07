@@ -28,7 +28,9 @@ public class MainClass {
 				f.setSize(1200, 700);
 				f.setVisible(true);
 				SoundPlayer player = new SoundPlayer();
-				ExecutorService exec = Executors.newFixedThreadPool(2);
+				ExecutorService exec = Executors.newFixedThreadPool(3);
+				DestinationBase base = new DestinationBase();
+				exec.execute(base);
 				exec.execute(animation);
 				exec.execute(player);
 				exec.shutdown();
