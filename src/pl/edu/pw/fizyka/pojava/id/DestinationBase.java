@@ -11,7 +11,7 @@ public class DestinationBase {
 		
 		Connection conn = null; 
 		try {
-			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("DROP TABLE IF EXISTS `destinations`;");
 			stmt.executeUpdate("CREATE TABLE `destinations` ("+

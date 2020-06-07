@@ -141,7 +141,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public void loadDestinations() throws SQLException{
 		try {
-				conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
 				Statement stmt = conn.createStatement();
 				stmt.execute("SELECT `name` FROM `destinations`");
 				ResultSet rs = stmt.getResultSet();
@@ -157,7 +157,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public void addDestination(String name, float distance) throws SQLException{
 		try {
-			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
 			PreparedStatement prep = conn.prepareStatement("INSERT into destinations(name, distance) values (?, ?)");
 			prep.setString(1, name);
 			prep.setString(2, String.valueOf(distance));
@@ -177,7 +177,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		String name = "";
 		float distance = 0;
 		try {
-			conn = DriverManager.getConnection(	"jdbc:h2:./data/destinations", "sa", "sa");
+			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
 			PreparedStatement prep = conn.prepareStatement("SELECT `name`, `distance` FROM `destinations` WHERE `id`= ?");
 			prep.setString(1, String.valueOf(i+1));
 			ResultSet rs = prep.executeQuery();
@@ -216,7 +216,6 @@ public class SettingsPanel extends JPanel implements ActionListener{
 					if (animation.ref == Reference.ROCKET)
 						animation.loc = Location.ROCKET;
 					target = getTarget(targetIndex);
-					//animation.showResults(target,  velocity);
 					animation.target = target;
 					animation.velocity = velocity;
 				} catch (SQLException e1) {
