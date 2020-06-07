@@ -1,15 +1,20 @@
 package pl.edu.pw.fizyka.pojava.id;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class MenuBar extends JMenuBar implements ActionListener{
+public class MenuBar extends JMenuBar implements ActionListener {
 	
 	JMenuItem addDest, authors, instruction;
 	SettingsPanel panel;
@@ -50,18 +55,23 @@ public class MenuBar extends JMenuBar implements ActionListener{
 			        JOptionPane.QUESTION_MESSAGE
 			    );
 			if ((name != null) && (name.length() > 0)) {
-				String distanceStr = JOptionPane.showInputDialog(
-			        null, 
-			        panel.rb.getString("menu.dest.dist"), 
-			        panel.rb.getString("menu.dest.title"), 
-			        JOptionPane.QUESTION_MESSAGE
-			    );
-				if ((distanceStr != null) && (distanceStr.length() > 0)) {
+				
+				JPanel input = new JPanel(new GridLayout(3, 1));
+				JTextField textField = new JTextField(10);
+				JComboBox<String> units = new JComboBox<>(new String[]{"km", "au", "ly"});
+				input.add(new JLabel(panel.rb.getString("menu.dest.dist")));
+				input.add(textField);
+				input.add(units);
+
+				int result = JOptionPane.showConfirmDialog(null, input, panel.rb.getString("menu.dest.title"), JOptionPane.OK_CANCEL_OPTION);
+				if(result == JOptionPane.OK_OPTION) {
 					try {
-						float distance = Float.parseFloat(distanceStr);
+						float distance = Float.parseFloat(textField.getText());
+						String unit = (String)units.getSelectedItem();
+						if (unit == "km") distance *= 1.057 * Math.pow(10, -13);
+						if (unit == "au") distance *= 1.58125 * Math.pow(10, -5);
 						panel.addDestination(name, distance);
 					} catch (SQLException e1) {
-						e1.printStackTrace();
 						System.err.println(panel.rb.getString("menu.dest.err"));
 					}catch (NumberFormatException e2) {
 						System.err.println("Incorrect number format");
@@ -71,4 +81,4 @@ public class MenuBar extends JMenuBar implements ActionListener{
 		}
 	}
 
-}
+	}

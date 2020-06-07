@@ -15,6 +15,8 @@ import java.sql.Statement;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -140,20 +142,30 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	}
 	
 	public void loadDestinations() throws SQLException{
-		try {
-			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
-				Statement stmt = conn.createStatement();
-				stmt.execute("SELECT `name` FROM `destinations`");
-				ResultSet rs = stmt.getResultSet();
-				while(rs.next()) {
-					destinations.addItem(String.valueOf(rs.getObject(1)));	
+				try {
+					conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
+						Statement stmt = conn.createStatement();
+						stmt.execute("SELECT `name` FROM `destinations`");
+						ResultSet rs = stmt.getResultSet();
+						while(rs.next()) {
+							destinations.addItem(String.valueOf(rs.getObject(1)));	
+						}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}finally {
+					if (conn!= null){
+						try {
+							conn.close();
+						} catch (SQLException e) {
+							e.printStackTrace();
+						}
+					}
 				}
-		}finally {
-			if (conn!= null){
-				conn.close();
-			}
-		}
-	}
+				
+			}	
+
+		
+	
 	
 	public void addDestination(String name, float distance) throws SQLException{
 		try {
