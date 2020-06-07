@@ -2,7 +2,6 @@ package pl.edu.pw.fizyka.pojava.id;
 
 import java.io.File;
 import java.io.IOException;
-
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -12,7 +11,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundPlayer implements Runnable{
-	String audioFilePath = "";
+	String audioFilePath;
 	Clip audioClip = null;
 	File audioFile = null;
 	AudioInputStream audioStream = null;
@@ -20,7 +19,8 @@ public class SoundPlayer implements Runnable{
     boolean playCompleted = false;
     
     SoundPlayer(){
-    	audioFilePath = "wav/Also-Sprach-Zarathustra_-Op.-30-Strauss.wav";
+    	
+		audioFilePath = SoundPlayer.class.getResource("/music.wav").getPath();
     }
 	
 public void run() {
