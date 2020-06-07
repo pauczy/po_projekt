@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import org.h2.tools.Server;
 
-
+//by Paulina
 public class DestinationBase  implements Runnable {
 
 	public void run() {

@@ -11,9 +11,6 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -29,6 +26,7 @@ enum Reference {
 	EARTH, ROCKET
 }
 
+//by Julian
 public class AnimationPanel extends JPanel implements Runnable{
 	
 	boolean dziala, reachedTarget;
@@ -214,7 +212,7 @@ public class AnimationPanel extends JPanel implements Runnable{
     	}
     	return animation;
     }
-	
+	//by Paulina
 	public void showResults(Target target, double velocity) {
 		
 				double v = velocity * Calculator.C;

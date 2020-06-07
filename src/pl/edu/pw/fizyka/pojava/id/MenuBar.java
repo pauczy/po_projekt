@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+//by Paulina
 public class MenuBar extends JMenuBar implements ActionListener {
 	
 	JMenuItem addDest, authors, instruction;

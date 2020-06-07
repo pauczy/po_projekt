@@ -1,6 +1,5 @@
 package pl.edu.pw.fizyka.pojava.id;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,10 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Hashtable;
-import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -46,6 +42,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	Connection conn = null;
 	AnimationPanel animation;
 	ResourceBundle rb;
+	Server server;
 	
 	public SettingsPanel(AnimationPanel animation) {
 		
@@ -143,9 +140,10 @@ public class SettingsPanel extends JPanel implements ActionListener{
 			
 	}
 	
+	//from here by Paulina
 	public void loadDestinations() throws SQLException{
 				try {
-					Server server = Server.createTcpServer().start();
+					server = Server.createTcpServer().start();
 					conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 						Statement stmt = conn.createStatement();
 						stmt.execute("SELECT `name` FROM `destinations`");
@@ -173,7 +171,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public void addDestination(String name, float distance) throws SQLException{
 		try {
-			Server server = Server.createTcpServer().start();
+			server = Server.createTcpServer().start();
 			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			PreparedStatement prep = conn.prepareStatement("INSERT into destinations(name, distance) values (?, ?)");
 			prep.setString(1, name);
@@ -194,7 +192,7 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		String name = "";
 		float distance = 0;
 		try {
-			Server server = Server.createTcpServer().start();
+			 server = Server.createTcpServer().start();
 			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			PreparedStatement prep = conn.prepareStatement("SELECT `name`, `distance` FROM `destinations` WHERE `id`= ?");
 			prep.setString(1, String.valueOf(i+1));
