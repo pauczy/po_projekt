@@ -223,9 +223,10 @@ public class AnimationPanel extends JPanel implements Runnable{
 		wynik = String.format(rb.getString("msg.dest") + target.getName() +"!\n" 
 				+ rb.getString("msg.time") +Calculator.timeToString(t) + "\n" 
 				+ rb.getString("msg.timeE") + Calculator.timeToString(t0) + "\n" 
-				+ rb.getString("msg.dist") +" %.3e km.\n"
-				+ rb.getString("msg.distR") + " %.3e km.", 
-				 l*0.001, target.getDistanceInMetres()*0.001 );
+				+ rb.getString("msg.dist") +" %.3e km  / %.3e au.\n"
+				+ rb.getString("msg.distR") + " %.3e km / %.3e au.\n", 
+				 l*0.001, Calculator.distanceAu(l),
+				 target.getDistanceInMetres()*0.001, Calculator.distanceAu(target.getDistanceInMetres()) );
 		int result = JOptionPane.showOptionDialog(null, wynik, rb.getString("msg.result"), JOptionPane.YES_NO_OPTION,
 	               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
 	    if(result == JOptionPane.YES_OPTION){

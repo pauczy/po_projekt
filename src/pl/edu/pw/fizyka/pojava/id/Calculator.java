@@ -20,6 +20,10 @@ public class Calculator {
 		return l0/gamma(v);
 	}
 	
+	public static double distanceAu (double distanceMeters) {
+		return distanceMeters * 6.684587122 * Math.pow(10, -12);
+	}
+	
 	public static String timeToString(double t) {
 		String time = " ";
 		Locale currentLocale = new Locale(System.getProperty("user.language"));
