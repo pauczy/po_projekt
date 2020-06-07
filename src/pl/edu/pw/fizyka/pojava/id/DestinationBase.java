@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.h2.tools.Server;
+
+
 
 public class DestinationBase {
 
@@ -11,7 +14,8 @@ public class DestinationBase {
 		
 		Connection conn = null; 
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
+			Server server = Server.createTcpServer().start();
+			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			Statement stmt = conn.createStatement();
 			stmt.executeUpdate("DROP TABLE IF EXISTS `destinations`;");
 			stmt.executeUpdate("CREATE TABLE `destinations` ("+

@@ -33,6 +33,8 @@ import javax.swing.JToggleButton;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.h2.tools.Server;
+
 public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public static double velocity;
@@ -143,13 +145,15 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public void loadDestinations() throws SQLException{
 				try {
-					conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
+					Server server = Server.createTcpServer().start();
+					conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 						Statement stmt = conn.createStatement();
 						stmt.execute("SELECT `name` FROM `destinations`");
 						ResultSet rs = stmt.getResultSet();
 						while(rs.next()) {
 							destinations.addItem(String.valueOf(rs.getObject(1)));	
 						}
+						
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}finally {
@@ -169,7 +173,8 @@ public class SettingsPanel extends JPanel implements ActionListener{
 	
 	public void addDestination(String name, float distance) throws SQLException{
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
+			Server server = Server.createTcpServer().start();
+			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			PreparedStatement prep = conn.prepareStatement("INSERT into destinations(name, distance) values (?, ?)");
 			prep.setString(1, name);
 			prep.setString(2, String.valueOf(distance));
@@ -189,7 +194,8 @@ public class SettingsPanel extends JPanel implements ActionListener{
 		String name = "";
 		float distance = 0;
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://db4free.net/destinations", "poprojekt", "haslojava");
+			Server server = Server.createTcpServer().start();
+			conn = DriverManager.getConnection(	"jdbc:h2:tcp://localhost/~/test", "sa", "");
 			PreparedStatement prep = conn.prepareStatement("SELECT `name`, `distance` FROM `destinations` WHERE `id`= ?");
 			prep.setString(1, String.valueOf(i+1));
 			ResultSet rs = prep.executeQuery();
