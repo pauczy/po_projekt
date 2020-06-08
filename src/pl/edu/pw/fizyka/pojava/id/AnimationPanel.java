@@ -29,7 +29,7 @@ enum Reference {
 //by Julian
 public class AnimationPanel extends JPanel implements Runnable{
 	
-	boolean dziala, reachedTarget;
+	boolean runs, reachedTarget;
 	public static Location loc;
 	public  static Reference ref;
 	int xPos, yPos, yBg;
@@ -40,7 +40,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	ResourceBundle rb;
 
 	public AnimationPanel()  {
-		dziala = true;
+		runs = true;
 		loc = Location.EARTH;
 		ref = Reference.EARTH;
 		rakietaStart = loadImg("/start/rakieta", 3);
@@ -109,7 +109,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 		xPos= 0;
 		reachedTarget = false;
 		boolean revertAnimation = false;
-		while (dziala == true) {
+		while (runs == true) {
 			if (loc == Location.EARTH) {//animacja na ziemi
 				currentImage = rakieta[i];				
 				this.repaint();
