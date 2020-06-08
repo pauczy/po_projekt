@@ -24,12 +24,12 @@ public class DestinationBase  implements Runnable {
 					  "PRIMARY KEY  (`Id`)"+
 					") ;"); 
 			
-			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Księżyc', (4.063*POWER(10, -8)));");
+			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Luna', (4.063*POWER(10, -8)));");
 			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Proxima Centauri', 4.243);");
 			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Mars', 1.886*POWER(10, -5));");
 			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Polaris', 430);");
-			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Słońce', 1.58*POWER(10, -5));");
-			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Galaktyka Andromedy', 2.537*POWER(10, 6));");
+			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Solis', 1.58*POWER(10, -5));");
+			stmt.executeUpdate("INSERT INTO `destinations` (`name`,`distance`) VALUES ('Nebula Andromedae', 2.537*POWER(10, 6));");
 			
 			
 			
