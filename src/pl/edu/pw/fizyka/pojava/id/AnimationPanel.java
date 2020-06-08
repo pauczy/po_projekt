@@ -33,7 +33,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 	public static Location loc;
 	public  static Reference ref;
 	int xPos, yPos, yBg;
-	BufferedImage rakieta[], rakietaStart[], rakietaLot[], currentImage;
+	BufferedImage rocket[], rocketStart[], rocketFlight[], currentImage;
 	ImageIcon bgImage, bgImageScaled, startBg, spaceBg, targetBg, currentIcon;
 	Target target;
 	double velocity;
@@ -43,9 +43,9 @@ public class AnimationPanel extends JPanel implements Runnable{
 		runs = true;
 		loc = Location.EARTH;
 		ref = Reference.EARTH;
-		rakietaStart = loadImg("/start/rakieta", 3);
-		rakietaLot = loadImg("/lot/rakieta", 3);
-		rakieta = rakietaStart;
+		rocketStart = loadImg("/start/rakieta", 3);
+		rocketFlight = loadImg("/lot/rakieta", 3);
+		rocket = rocketStart;
 		startBg = new ImageIcon(AnimationPanel.class.getResource("/start.png"));
 		spaceBg = new ImageIcon(AnimationPanel.class.getResource("/niebo.png"));
 		targetBg = new ImageIcon(AnimationPanel.class.getResource("/target.jpg"));
@@ -62,7 +62,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 		int panelWidth = (int)AnimationPanel.this.getSize().width;
 		int panelHeight = (int)AnimationPanel.this.getSize().height;
 		if (loc == Location.EARTH) {
-			rakieta = rakietaStart;
+			rocket = rocketStart;
 			bgImage = startBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance(panelWidth, panelHeight,  Image.SCALE_SMOOTH); 
@@ -72,7 +72,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 			g2d.drawImage(currentImageScaled, (int) (panelWidth*0.45), (int) (AnimationPanel.this.getSize().height*0.45), null);
 		}
 		if (loc == Location.SPACE) {
-			rakieta = rakietaLot;
+			rocket = rocketFlight;
 			bgImage = spaceBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance(panelWidth, panelHeight,  Image.SCALE_SMOOTH); 
@@ -83,7 +83,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 			g2d.drawImage(currentImageScaled, xPos, yPos, null);
 		}
 		if (loc == Location.TARGET) {
-			rakieta = rakietaLot;
+			rocket = rocketFlight;
 			bgImage = targetBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance(panelWidth, panelHeight,  Image.SCALE_SMOOTH); 
@@ -93,7 +93,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 			g2d.drawImage(currentImageScaled, (int) (panelWidth*0.3), (int) (panelHeight*0.25), null);
 		}
 		if (loc == Location.ROCKET) {
-			rakieta = rakietaLot;
+			rocket = rocketFlight;
 			bgImage = spaceBg;
 			Image bgImageS = bgImage.getImage();
 			bgImageS = bgImageS.getScaledInstance(panelWidth*3, panelHeight,  Image.SCALE_SMOOTH); 
@@ -111,14 +111,14 @@ public class AnimationPanel extends JPanel implements Runnable{
 		boolean revertAnimation = false;
 		while (runs == true) {
 			if (loc == Location.EARTH) {//animacja na ziemi
-				currentImage = rakieta[i];				
+				currentImage = rocket[i];				
 				this.repaint();
 				try {
 					Thread.sleep(200);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if (i == rakieta.length - 1)
+				if (i == rocket.length - 1)
 					revertAnimation = true;
 				if (i == 0)
 					revertAnimation = false;
@@ -128,7 +128,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 					--i;
 			}
 			if (loc == Location.SPACE) {//animacja w ukladzie ziemi				
-				currentImage = rakieta[i];				
+				currentImage = rocket[i];				
 				this.repaint();
 				try {
 					int sleep =  (int) (15 / SettingsPanel.velocity);
@@ -136,7 +136,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if (i == rakieta.length - 1)
+				if (i == rocket.length - 1)
 					revertAnimation = true;
 				if (i == 0)
 					revertAnimation = false;
@@ -153,7 +153,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 				}
 			}
 			if (loc == Location.ROCKET) {//animacja w ukladzie rakiety				
-				currentImage = rakieta[i];				
+				currentImage = rocket[i];				
 				this.repaint();
 				try {
 					int sleep =  (int) (15 / SettingsPanel.velocity);
@@ -161,7 +161,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				if (i == rakieta.length - 1)
+				if (i == rocket.length - 1)
 					revertAnimation = true;
 				if (i == 0)
 					revertAnimation = false;
@@ -179,14 +179,14 @@ public class AnimationPanel extends JPanel implements Runnable{
 				}
 			}
 				if (loc == Location.TARGET) {//animacja w ukladzie ziemi				
-					currentImage = rakieta[i];				
+					currentImage = rocket[i];				
 					this.repaint();
 					try {
 						Thread.sleep(150);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					if (i == rakieta.length - 1)
+					if (i == rocket.length - 1)
 						revertAnimation = true;
 					if (i == 0)
 						revertAnimation = false;
@@ -248,7 +248,7 @@ public class AnimationPanel extends JPanel implements Runnable{
 			
 		
 	    	loc = Location.EARTH;
-	    	rakieta = rakietaStart;
+	    	rocket = rocketStart;
 
 	}
 }
