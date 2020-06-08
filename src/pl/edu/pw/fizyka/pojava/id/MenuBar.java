@@ -32,9 +32,6 @@ public class MenuBar extends JMenuBar implements ActionListener {
 		authors = new JMenuItem(panel.rb.getString("menu.authors"));
 		authors.addActionListener(this);
 		about.add(authors);
-		instruction = new JMenuItem(panel.rb.getString("menu.instruction"));
-		instruction.addActionListener(this);
-		about.add(instruction);
 		
 		this.add(edit);
 		this.add(about);
@@ -44,9 +41,6 @@ public class MenuBar extends JMenuBar implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == authors) {
 			JOptionPane.showMessageDialog(null, panel.rb.getString("menu.authors.msg"));
-		}
-		if(e.getSource() == instruction) {
-			
 		}
 		if(e.getSource() == addDest) {
 			String name = JOptionPane.showInputDialog(

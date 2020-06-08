@@ -11,6 +11,9 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -231,17 +234,23 @@ public class AnimationPanel extends JPanel implements Runnable{
 				int result = JOptionPane.showOptionDialog(null, wynik, rb.getString("msg.result"), JOptionPane.YES_NO_OPTION,
 			               JOptionPane.INFORMATION_MESSAGE, null, options, options[0] );
 			    if(result == JOptionPane.YES_OPTION){
-			            JFileChooser fc = new JFileChooser();  
-			 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-			 				try {
-			 		            File outputFile = fc.getSelectedFile();
-			 		            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile),
-			 			                Charset.forName("UTF-8").newEncoder());
-			 					osw.write(wynik);
-			 					osw.close();
-			 				}catch (IOException e) {
-			 				System.out.println(e.getMessage());}
-			 			}
+			    	ExecutorService exec = Executors.newSingleThreadExecutor();
+			    	exec.execute(new Runnable() {
+			    		public void run() {
+			    			JFileChooser fc = new JFileChooser();  
+				 			if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+				 				try {
+				 		            File outputFile = fc.getSelectedFile();
+				 		            OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(outputFile),
+				 			                Charset.forName("UTF-8").newEncoder());
+				 					osw.write(wynik);
+				 					osw.close();
+				 				}catch (IOException e) {
+				 				System.out.println(e.getMessage());}
+				 			}
+			    		}
+			    	});
+			            
 			 			
 			    }
 				
